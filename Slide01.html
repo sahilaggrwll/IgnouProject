@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ACDE Cover Slide</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a;
+        }
+        .slide-container { 
+            width: 1280px; 
+            height: 720px; 
+            position: relative; 
+            overflow: hidden; 
+            background-color: #0f172a; 
+            color: white; 
+            display: flex;
+            flex-direction: column;
+        }
+        .tech-card {
+            background-color: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+        .tech-card:hover {
+            border-color: rgba(59, 130, 246, 0.6);
+            transform: translateY(-5px);
+            background-color: rgba(30, 41, 59, 1);
+        }
+        /* Decorative circle using border-radius, no gradients */
+        .circle-decor-1 {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background-color: #1e3a8a; /* darker blue */
+            border-radius: 50%;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        .circle-decor-2 {
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 600px;
+            height: 600px;
+            background-color: #312e81; /* indigo */
+            border-radius: 50%;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        .grid-line {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.03);
+            z-index: 0;
+        }
+    
+        /* Shared Deck Background */
+        body,
+        .slide-container {
+            background: #0f172a !important;
+            background-image: none !important;
+        }
+
+        .slide-container {
+            isolation: isolate;
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%),
+                radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 30%),
+                linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px;
+            background-position: top right, bottom left, 0 0, 0 0;
+        }
+
+        .circle-decor-1,
+        .circle-decor-2,
+        .grid-line,
+        .grid-line-h,
+        .grid-line-v,
+        .bg-glow,
+        .grid-bg,
+        .bg-blob-1,
+        .bg-blob-2,
+        .bg-pattern,
+        .bg-grid,
+        .bg-dots,
+        .decoration-circle,
+        .bg-circle-1,
+        .bg-circle-2,
+        .grid-pattern,
+        .bg-blob,
+        .blob-1,
+        .blob-2,
+        .blob-3 {
+            display: none !important;
+        }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div class="circle-decor-1"></div>
+<div class="circle-decor-2"></div>
+
+<div class="grid-line w-full h-px top-24"></div>
+<div class="grid-line w-full h-px top-48"></div>
+<div class="grid-line w-full h-px top-72"></div>
+<div class="grid-line w-full h-px bottom-48"></div>
+<div class="grid-line w-full h-px bottom-24"></div>
+
+<div class="grid-line h-full w-px left-24"></div>
+<div class="grid-line h-full w-px left-48"></div>
+<div class="grid-line h-full w-px right-48"></div>
+<div class="grid-line h-full w-px right-24"></div>
+
+<div class="absolute top-10 left-12 z-20 flex items-center space-x-3">
+<div class="h-1 w-12 bg-blue-500"></div>
+<p class="text-blue-400 font-bold tracking-widest text-sm uppercase">IGNOU MCSP-232 Project Synopsis</p>
+</div>
+
+<div class="flex-1 flex flex-col items-center justify-center z-10 w-full relative -mt-10">
+    <div class="mb-6 relative">
+        <div class="absolute -inset-4 bg-blue-500 rounded-full opacity-20 animate-pulse"></div>
+        <i class="fas fa-cloud-upload-alt text-6xl text-blue-400 relative z-10"></i>
+    </div>
+    
+    <div class="text-center max-w-5xl px-4">
+        <h1 class="text-6xl font-extrabold mb-4 leading-tight tracking-tight text-white">
+            Automated Cloud <br>
+            <span class="text-blue-500">Deployment Engine</span>
+        </h1>
+        <div class="h-1 w-32 bg-gray-700 mx-auto my-5 rounded-full"></div>
+        <p class="text-2xl text-gray-300 font-light tracking-wide mb-12">
+            (ACDE): A Containerized Platform as a Service
+        </p>
+    </div>
+
+    <div class="w-full max-w-5xl flex justify-between items-center px-12 mt-4 bg-gray-900 bg-opacity-40 p-6 rounded-2xl border border-gray-800 backdrop-filter backdrop-blur-md">
+        <div class="flex items-center space-x-5 text-left">
+            <i class="fas fa-id-badge text-5xl text-blue-400"></i>
+            <div>
+                <h2 class="text-2xl font-bold text-white tracking-wider">SAHIL AGGARWAL</h2>
+                <p class="text-lg text-blue-400 font-semibold tracking-widest mt-1">ENROLLMENT NO. 2500675011</p>
+            </div>
+        </div>
+        
+        <div class="h-16 w-px bg-gray-600"></div>
+        
+        <div class="text-right flex items-center space-x-5">
+            <div>
+                <h2 class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-1">Project Guide</h2>
+                <p class="text-lg text-white font-semibold">Aishwariya Singh</p>
+                <p class="text-sm text-gray-300">Senior Software Engineer</p>
+                <p class="text-xs text-gray-400 mt-1">Headout, Bangalore</p>
+            </div>
+            <i class="fas fa-user-tie text-5xl text-green-400"></i>
+        </div>
+    </div>
+</div>
+
+<div class="z-20 w-full bg-gray-900 bg-opacity-50 border-t border-gray-800 backdrop-filter backdrop-blur-sm absolute bottom-0">
+<div class="py-6 px-12 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<p class="text-xs text-gray-500 uppercase tracking-widest font-semibold">Core Technology Stack</p>
+<div class="h-px w-12 bg-gray-700"></div>
+</div>
+<div class="flex space-x-6">
+<div class="tech-card px-4 py-2 rounded-lg flex items-center space-x-3">
+<i class="fab fa-ubuntu text-2xl text-orange-500"></i>
+<span class="text-sm font-semibold text-gray-300">Ubuntu</span>
+</div>
+<div class="tech-card px-4 py-2 rounded-lg flex items-center space-x-3">
+<i class="fab fa-node-js text-2xl text-green-500"></i>
+<span class="text-sm font-semibold text-gray-300">Node.js</span>
+</div>
+<div class="tech-card px-4 py-2 rounded-lg flex items-center space-x-3">
+<i class="fab fa-docker text-2xl text-blue-400"></i>
+<span class="text-sm font-semibold text-gray-300">Docker</span>
+</div>
+<div class="tech-card px-4 py-2 rounded-lg flex items-center space-x-3">
+<i class="fas fa-dharmachakra text-2xl text-blue-600"></i>
+<span class="text-sm font-semibold text-gray-300">Kubernetes</span>
+</div>
+<div class="tech-card px-4 py-2 rounded-lg flex items-center space-x-3">
+<i class="fas fa-database text-2xl text-green-400"></i>
+<span class="text-sm font-semibold text-gray-300">MongoDB</span>
+</div>
+<div class="tech-card px-4 py-2 rounded-lg flex items-center space-x-3">
+<i class="fab fa-google text-2xl text-red-500"></i>
+<span class="text-sm font-semibold text-gray-300">GCP</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

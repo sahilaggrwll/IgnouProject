@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — List of Figures, Tables & Abbreviations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .three-panel { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px }
+  .lof-item { display:flex; gap:8px; align-items:baseline; padding:5px 0; border-bottom:1px dotted rgba(51,65,85,0.6); }
+  .lof-item:last-child { border-bottom:none; }
+  .lof-num { font-family:'JetBrains Mono',monospace; font-size:9.5px; font-weight:700; color:#3b82f6; flex-shrink:0; width:48px; }
+  .lof-title { font-size:10.5px; color:#cbd5e1; flex:1; }
+  .lof-dots { flex:1; border-bottom:1px dotted rgba(71,85,105,0.4); margin:0 6px; min-width:10px; }
+  .lof-page { font-family:'JetBrains Mono',monospace; font-size:9px; color:#475569; flex-shrink:0; }
+  /* Abbreviations */
+  .abbr-item { display:flex; gap:8px; padding:4px 0; border-bottom:1px solid rgba(51,65,85,0.4); align-items:flex-start; }
+  .abbr-item:last-child { border-bottom:none; }
+  .abbr-key { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:#60a5fa; width:60px; flex-shrink:0; }
+  .abbr-colon { color:#334155; flex-shrink:0; }
+  .abbr-val { font-size:10.5px; color:#94a3b8; flex:1; line-height:1.35; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Preliminary — vi</p>
+      <h1 class="chapter-title">List of Figures, Tables &amp; Abbreviations</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-list-ol"></i> Index &amp; Glossary</span>
+  </div>
+
+  <div class="three-panel">
+
+    <!-- Panel 1: List of Figures -->
+    <div class="card" style="border-color:rgba(59,130,246,0.4); overflow:hidden; display:flex; flex-direction:column;">
+      <p class="section-h" style="margin-bottom:8px;"><i class="fas fa-images" style="color:#3b82f6; margin-right:6px;"></i>List of Figures</p>
+      <div style="flex:1; overflow:hidden;">
+        <div class="lof-item"><span class="lof-num">Fig 2.1</span><span class="lof-title">DFD Level 0 — Context Diagram</span><span class="lof-dots"></span><span class="lof-page">2b</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.2</span><span class="lof-title">DFD Level 1 — Core Processes</span><span class="lof-dots"></span><span class="lof-page">2b</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.3</span><span class="lof-title">Entity-Relationship (ER) Diagram</span><span class="lof-dots"></span><span class="lof-page">2b</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.4</span><span class="lof-title">Agile Sprint Map (5 Sprints)</span><span class="lof-dots"></span><span class="lof-page">2b</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.5</span><span class="lof-title">Gantt Chart — 5-Month Plan</span><span class="lof-dots"></span><span class="lof-page">2b</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.6</span><span class="lof-title">PERT Network Diagram</span><span class="lof-dots"></span><span class="lof-page">UC/P</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.7</span><span class="lof-title">Use Case Diagram</span><span class="lof-dots"></span><span class="lof-page">UC/P</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.8</span><span class="lof-title">Feasibility Study Summary</span><span class="lof-dots"></span><span class="lof-page">Feas</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.9</span><span class="lof-title">COCOMO Cost Estimation</span><span class="lof-dots"></span><span class="lof-page">Feas</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 3.1</span><span class="lof-title">System Module Breakdown Table</span><span class="lof-dots"></span><span class="lof-page">3</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 3.2</span><span class="lof-title">MongoDB Collections Schema</span><span class="lof-dots"></span><span class="lof-page">3</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 4.1</span><span class="lof-title">Technology Stack Table</span><span class="lof-dots"></span><span class="lof-page">4</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 5.1</span><span class="lof-title">Test Case Matrix (TC-01 to TC-05)</span><span class="lof-dots"></span><span class="lof-page">5</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 6.1</span><span class="lof-title">Traffic Request Path Diagram</span><span class="lof-dots"></span><span class="lof-page">6</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 6.2</span><span class="lof-title">Security Layer Summary Table</span><span class="lof-dots"></span><span class="lof-page">6</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.10</span><span class="lof-title">Sequence Diagram — Deploy Pipeline</span><span class="lof-dots"></span><span class="lof-page">2E</span></div>
+        <div class="lof-item"><span class="lof-num">Fig 2.11</span><span class="lof-title">DFD Level 2 — Orchestration Engine</span><span class="lof-dots"></span><span class="lof-page">2E</span></div>
+        <div class="lof-item"><span class="lof-num">Fig A.1</span><span class="lof-title">Screen Layout — Login / Register</span><span class="lof-dots"></span><span class="lof-page">A</span></div>
+        <div class="lof-item"><span class="lof-num">Fig A.2</span><span class="lof-title">Screen Layout — Dashboard</span><span class="lof-dots"></span><span class="lof-page">A</span></div>
+        <div class="lof-item"><span class="lof-num">Fig A.3</span><span class="lof-title">Screen Layout — Projects List</span><span class="lof-dots"></span><span class="lof-page">A</span></div>
+        <div class="lof-item"><span class="lof-num">Fig A.4</span><span class="lof-title">Screen Layout — Deploy Log Terminal</span><span class="lof-dots"></span><span class="lof-page">A</span></div>
+      </div>
+    </div>
+
+    <!-- Panel 2: List of Tables -->
+    <div class="card" style="border-color:rgba(16,185,129,0.4); overflow:hidden; display:flex; flex-direction:column;">
+      <p class="section-h" style="margin-bottom:8px;"><i class="fas fa-table" style="color:#10b981; margin-right:6px;"></i>List of Tables</p>
+      <div style="flex:1; overflow:hidden;">
+        <div class="lof-item"><span class="lof-num">Tbl 2.1</span><span class="lof-title">Functional Requirements</span><span class="lof-dots"></span><span class="lof-page">2a</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 2.2</span><span class="lof-title">Non-Functional Requirements</span><span class="lof-dots"></span><span class="lof-page">2a</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 2.3</span><span class="lof-title">Hardware &amp; Software Constraints</span><span class="lof-dots"></span><span class="lof-page">2a</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 2.4</span><span class="lof-title">PERT Task Duration Estimates</span><span class="lof-dots"></span><span class="lof-page">UC/P</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 2.5</span><span class="lof-title">COCOMO Estimation Results</span><span class="lof-dots"></span><span class="lof-page">Feas</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 3.1</span><span class="lof-title">System Module Description</span><span class="lof-dots"></span><span class="lof-page">3</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 3.2</span><span class="lof-title">MongoDB Collection Fields</span><span class="lof-dots"></span><span class="lof-page">3</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 3.3</span><span class="lof-title">Data Integrity Constraints</span><span class="lof-dots"></span><span class="lof-page">3</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 4.1</span><span class="lof-title">Technology Stack &amp; Justification</span><span class="lof-dots"></span><span class="lof-page">4</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 5.1</span><span class="lof-title">Sample Test Cases (TC-01–TC-05)</span><span class="lof-dots"></span><span class="lof-page">5</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 5.2</span><span class="lof-title">Debugging Log</span><span class="lof-dots"></span><span class="lof-page">5</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 6.1</span><span class="lof-title">User Roles &amp; Access Rights</span><span class="lof-dots"></span><span class="lof-page">6</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 6.2</span><span class="lof-title">Security Layer Summary</span><span class="lof-dots"></span><span class="lof-page">6</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 3.4</span><span class="lof-title">Data Dict — users Collection</span><span class="lof-dots"></span><span class="lof-page">3B</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 3.5</span><span class="lof-title">Data Dict — projects Collection</span><span class="lof-dots"></span><span class="lof-page">3B</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 3.6</span><span class="lof-title">Data Dict — deployments Collection</span><span class="lof-dots"></span><span class="lof-page">3B</span></div>
+        <div class="lof-item"><span class="lof-num">Tbl 3.7</span><span class="lof-title">Data Dict — logs Collection</span><span class="lof-dots"></span><span class="lof-page">3B</span></div>
+      </div>
+    </div>
+
+    <!-- Panel 3: List of Abbreviations -->
+    <div class="card" style="border-color:rgba(139,92,246,0.4); overflow:hidden; display:flex; flex-direction:column;">
+      <p class="section-h" style="margin-bottom:8px;"><i class="fas fa-spell-check" style="color:#8b5cf6; margin-right:6px;"></i>List of Abbreviations</p>
+      <div style="flex:1; overflow:hidden;">
+        <div class="abbr-item"><span class="abbr-key">ACDE</span><span class="abbr-colon">:</span><span class="abbr-val">Automated Cloud Deployment Engine</span></div>
+        <div class="abbr-item"><span class="abbr-key">API</span><span class="abbr-colon">:</span><span class="abbr-val">Application Programming Interface</span></div>
+        <div class="abbr-item"><span class="abbr-key">COCOMO</span><span class="abbr-colon">:</span><span class="abbr-val">Constructive Cost Model</span></div>
+        <div class="abbr-item"><span class="abbr-key">DB</span><span class="abbr-colon">:</span><span class="abbr-val">Database</span></div>
+        <div class="abbr-item"><span class="abbr-key">DFD</span><span class="abbr-colon">:</span><span class="abbr-val">Data Flow Diagram</span></div>
+        <div class="abbr-item"><span class="abbr-key">ER</span><span class="abbr-colon">:</span><span class="abbr-val">Entity-Relationship</span></div>
+        <div class="abbr-item"><span class="abbr-key">GCP</span><span class="abbr-colon">:</span><span class="abbr-val">Google Cloud Platform</span></div>
+        <div class="abbr-item"><span class="abbr-key">HTTP</span><span class="abbr-colon">:</span><span class="abbr-val">HyperText Transfer Protocol</span></div>
+        <div class="abbr-item"><span class="abbr-key">JWT</span><span class="abbr-colon">:</span><span class="abbr-val">JSON Web Token</span></div>
+        <div class="abbr-item"><span class="abbr-key">K8s</span><span class="abbr-colon">:</span><span class="abbr-val">Kubernetes (container orchestration)</span></div>
+        <div class="abbr-item"><span class="abbr-key">KLOC</span><span class="abbr-colon">:</span><span class="abbr-val">Kilo Lines of Code (1000 lines)</span></div>
+        <div class="abbr-item"><span class="abbr-key">MCA</span><span class="abbr-colon">:</span><span class="abbr-val">Master of Computer Applications</span></div>
+        <div class="abbr-item"><span class="abbr-key">Nginx</span><span class="abbr-colon">:</span><span class="abbr-val">Engine-X (reverse proxy server)</span></div>
+        <div class="abbr-item"><span class="abbr-key">PaaS</span><span class="abbr-colon">:</span><span class="abbr-val">Platform as a Service</span></div>
+        <div class="abbr-item"><span class="abbr-key">PERT</span><span class="abbr-colon">:</span><span class="abbr-val">Program Evaluation and Review Technique</span></div>
+        <div class="abbr-item"><span class="abbr-key">REST</span><span class="abbr-colon">:</span><span class="abbr-val">Representational State Transfer</span></div>
+        <div class="abbr-item"><span class="abbr-key">SOCIS</span><span class="abbr-colon">:</span><span class="abbr-val">School of Computer &amp; Information Sciences</span></div>
+        <div class="abbr-item"><span class="abbr-key">SRS</span><span class="abbr-colon">:</span><span class="abbr-val">Software Requirements Specification</span></div>
+        <div class="abbr-item"><span class="abbr-key">SSE</span><span class="abbr-colon">:</span><span class="abbr-val">Server-Sent Events</span></div>
+        <div class="abbr-item"><span class="abbr-key">URL</span><span class="abbr-colon">:</span><span class="abbr-val">Uniform Resource Locator</span></div>
+        <div class="abbr-item"><span class="abbr-key">YAML</span><span class="abbr-colon">:</span><span class="abbr-val">YAML Ain't Markup Language</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Preliminary — Page vi</span>
+  </div>
+</div>
+</body>
+</html>

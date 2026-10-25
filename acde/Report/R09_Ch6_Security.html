@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 6: System Security</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  /* Traffic flow */
+  .flow-row { display:flex; align-items:center; gap:0; margin-bottom:6px; }
+  .flow-node { padding:6px 12px; border-radius:10px; font-size:10px; font-weight:700; text-align:center; flex:1; }
+  .flow-arrow { color:#334155; font-size:16px; padding:0 4px; flex-shrink:0; }
+  .fn-ext  { background:rgba(99,102,241,0.18); border:1px solid rgba(99,102,241,0.4); color:#a5b4fc; }
+  .fn-lb   { background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.35); color:#fbbf24; }
+  .fn-nx   { background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.35); color:#34d399; }
+  .fn-api  { background:rgba(37,99,235,0.18); border:1px solid rgba(37,99,235,0.4); color:#60a5fa; }
+  .fn-pod  { background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.35); color:#a78bfa; }
+  /* Layer strip */
+  .layer-strip { display:flex; gap:8px; margin-bottom:7px; align-items:stretch; }
+  .layer-num { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; flex-shrink:0; margin-top:2px; }
+  .layer-content { flex:1; }
+  .layer-title { font-size:11px; font-weight:700; color:#e2e8f0; margin-bottom:2px; }
+  .layer-desc { font-size:10px; color:#94a3b8; line-height:1.4; }
+  .layer-desc code { color:#fbbf24; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 6</p>
+      <h1 class="chapter-title">System Security</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-shield-alt"></i> Defense-in-Depth</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT -->
+    <div class="col">
+
+      <!-- Traffic flow -->
+      <div class="card card-accent-blue">
+        <p class="section-h">Traffic Request Path &amp; Network Architecture</p>
+        <div class="flow-row">
+          <div class="flow-node fn-ext">Public User<br><span style="font-size:8px; font-weight:400; color:#818cf8;">Browser (HTTPS)</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node fn-lb">GCP Load Balancer<br><span style="font-size:8px; font-weight:400; color:#d97706;">Port 80/443 Ingress</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node fn-nx">Nginx Proxy<br><span style="font-size:8px; font-weight:400; color:#059669;">Dynamic Routing</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node fn-api">Express API<br><span style="font-size:8px; font-weight:400; color:#2563eb;">Port 4000</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node fn-pod">App Container<br><span style="font-size:8px; font-weight:400; color:#7c3aed;">Isolated Pod</span></div>
+        </div>
+        <p style="font-size:9px; color:#475569; margin-top:4px;">Apps are <em>only</em> reachable through Nginx — containers are never directly exposed to the internet. All traffic enters via the load balancer on port 80/443.</p>
+      </div>
+
+      <!-- 6.1 DB & Data Security -->
+      <div class="card card-accent-green">
+        <p class="section-h">6.1 Database &amp; Data Security</p>
+        <div class="layer-strip">
+          <div class="layer-num" style="background:rgba(52,211,153,0.2); color:#34d399;">1</div>
+          <div class="layer-content">
+            <p class="layer-title">bcrypt Password Hashing</p>
+            <p class="layer-desc">All passwords stored as bcrypt hashes (cost factor 10). Raw passwords never persisted. Verified via <code>bcrypt.compare()</code> on login — resistant to rainbow table attacks.</p>
+          </div>
+        </div>
+        <div class="layer-strip">
+          <div class="layer-num" style="background:rgba(59,130,246,0.2); color:#60a5fa;">2</div>
+          <div class="layer-content">
+            <p class="layer-title">JWT Stateless Authentication</p>
+            <p class="layer-desc">JWTs signed with <code>JWT_SECRET</code> (env var), expire in 7 days. Every protected route runs <code>verifyToken()</code> middleware — no server-side session storage needed.</p>
+          </div>
+        </div>
+        <div class="layer-strip">
+          <div class="layer-num" style="background:rgba(245,158,11,0.2); color:#f59e0b;">3</div>
+          <div class="layer-content">
+            <p class="layer-title">Input Validation &amp; Sanitisation</p>
+            <p class="layer-desc">Git URLs validated against a strict regex in <code>validators.js</code>. Project names are sanitised (alphanumeric + hyphens only) before use as subdomain slugs — prevents command injection.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+
+      <!-- 6.2 Access Rights -->
+      <div class="card card-accent-purple">
+        <p class="section-h">6.2 User Profiles &amp; Access Rights</p>
+        <div class="tbl-shell" style="margin-bottom:10px;">
+          <table class="tbl">
+            <thead>
+              <tr><th>Role</th><th>Permissions</th><th>Enforcement</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill pill-blue">Authenticated User</span></td>
+                <td>Create, view, deploy, stop, delete <em>own</em> projects; view own logs</td>
+                <td>JWT middleware + Ownership Guard (<code>middleware/ownership.js</code>)</td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-orange">Unauthenticated</span></td>
+                <td>Access to <code>/api/auth/register</code> and <code>/api/auth/login</code> only</td>
+                <td>All other routes return <strong>401 Unauthorized</strong></td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-red">Cross-User</span></td>
+                <td>No access to another user's projects even with valid JWT</td>
+                <td>Ownership Guard checks <code>project.user_id === req.user._id</code> → <strong>403</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-h" style="margin-bottom:6px;">Container &amp; Infrastructure Isolation</p>
+        <ul class="blist">
+          <li><strong>Linux Namespace Isolation:</strong> Docker containers run in separate PID, IPC, and Mount namespaces — complete process-level isolation from the host.</li>
+          <li><strong>No Host FS Access:</strong> Containers are started without <code>--privileged</code> or host volume mounts; cannot read host filesystem.</li>
+          <li><strong>Kubernetes Resource Limits:</strong> Each K8s pod has <code>cpu: 500m</code> and <code>memory: 512Mi</code> limits enforced by the scheduler — prevents denial-of-service from runaway containers.</li>
+          <li><strong>NetworkPolicy (Pod Isolation):</strong> <code>k8s/network-policy.yaml</code> denies all inter-pod traffic; only Nginx proxy pods may reach app pods on port 3000/80.</li>
+          <li><strong>Internal Routing Only:</strong> Nginx conf.d routes map internal ports; containers are not listed in any external DNS or firewall rule.</li>
+        </ul>
+      </div>
+
+      <!-- Security summary table -->
+      <div class="card card-accent-orange">
+        <p class="section-h">Security Layer Summary</p>
+        <div class="tbl-shell">
+          <table class="tbl">
+            <thead><tr><th>Layer</th><th>Mechanism</th><th>Implemented</th></tr></thead>
+            <tbody>
+              <tr><td>Application</td><td>bcrypt, JWT, input validation</td><td><span class="pass-badge" style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:700;border:1px solid rgba(52,211,153,0.4);background:rgba(6,95,70,0.2);color:#6ee7b7;"><i class="fas fa-check"></i> Yes</span></td></tr>
+              <tr><td>Network</td><td>Internal routing via Nginx only</td><td><span class="pass-badge" style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:700;border:1px solid rgba(52,211,153,0.4);background:rgba(6,95,70,0.2);color:#6ee7b7;"><i class="fas fa-check"></i> Yes</span></td></tr>
+              <tr><td>System</td><td>Linux namespaces, no --privileged</td><td><span class="pass-badge" style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:700;border:1px solid rgba(52,211,153,0.4);background:rgba(6,95,70,0.2);color:#6ee7b7;"><i class="fas fa-check"></i> Yes</span></td></tr>
+              <tr><td>K8s</td><td>Resource limits + NetworkPolicy</td><td><span class="pass-badge" style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:700;border:1px solid rgba(52,211,153,0.4);background:rgba(6,95,70,0.2);color:#6ee7b7;"><i class="fas fa-check"></i> Yes</span></td></tr>
+              <tr><td>GCP Firewall</td><td>Port 80/443 only inbound</td><td><span class="pill pill-orange" style="font-size:9px;">v2 Scope</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 6 — Page 6</span>
+  </div>
+</div>
+</body>
+</html>

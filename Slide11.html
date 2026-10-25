@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Implementation Timeline</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Background Pattern - Dots */
+        .bg-dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        /* Timeline Container */
+        .timeline-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 40px;
+            margin-top: 40px;
+            z-index: 10;
+        }
+
+        /* Central Line */
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 60px;
+            right: 60px;
+            height: 4px;
+            background-color: #334155;
+            transform: translateY(-50%);
+            z-index: 0;
+            border-radius: 2px;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 50%;
+            left: 60px;
+            width: 0; /* Animated later or static full width */
+            width: calc(100% - 120px);
+            height: 4px;
+            background-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        /* Timeline Node */
+        .timeline-item {
+            position: relative;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .node-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1e293b;
+            border: 4px solid #3b82f6;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: white;
+            box-shadow: 0 0 0 6px rgba(15, 23, 42, 1); /* Fake border/spacing */
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .timeline-item:hover .node-circle {
+            transform: scale(1.2);
+            border-color: white;
+        }
+
+        /* Content Cards */
+        .content-card {
+            position: absolute;
+            width: 220px;
+            background-color: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .content-card:hover {
+            background-color: rgba(30, 41, 59, 0.95);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            z-index: 20;
+        }
+
+        /* Connecting vertical lines */
+        .connector-v {
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background-color: #475569;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        /* Alternating Layout positions */
+        /* Top Items */
+        .item-top .content-card {
+            bottom: 60px;
+        }
+        .item-top .connector-v {
+            bottom: 20px;
+        }
+        
+        /* Bottom Items */
+        .item-bottom .content-card {
+            top: 60px;
+        }
+        .item-bottom .connector-v {
+            top: 20px;
+        }
+
+        /* Specific Colors for Months */
+        .month-1 .node-circle { border-color: #06b6d4; } /* Cyan */
+        .month-1 .content-card { border-top: 3px solid #06b6d4; }
+        .month-1 h3 { color: #22d3ee; }
+
+        .month-2 .node-circle { border-color: #3b82f6; } /* Blue */
+        .month-2 .content-card { border-top: 3px solid #3b82f6; }
+        .month-2 h3 { color: #60a5fa; }
+
+        .month-3 .node-circle { border-color: #8b5cf6; } /* Violet */
+        .month-3 .content-card { border-top: 3px solid #8b5cf6; }
+        .month-3 h3 { color: #a78bfa; }
+
+        .month-4 .node-circle { border-color: #f97316; } /* Orange */
+        .month-4 .content-card { border-top: 3px solid #f97316; }
+        .month-4 h3 { color: #fb923c; }
+
+        .month-5 .node-circle { border-color: #10b981; } /* Emerald */
+        .month-5 .content-card { border-top: 3px solid #10b981; }
+        .month-5 h3 { color: #34d399; }
+
+        .card-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* Month Label */
+        .month-label {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 700;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .item-top .month-label { top: 50px; }
+        .item-bottom .month-label { bottom: 50px; }
+
+    
+        /* Shared Deck Background */
+        body,
+        .slide-container {
+            background: #0f172a !important;
+            background-image: none !important;
+        }
+
+        .slide-container {
+            isolation: isolate;
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%),
+                radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 30%),
+                linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px;
+            background-position: top right, bottom left, 0 0, 0 0;
+        }
+
+        .circle-decor-1,
+        .circle-decor-2,
+        .grid-line,
+        .grid-line-h,
+        .grid-line-v,
+        .bg-glow,
+        .grid-bg,
+        .bg-blob-1,
+        .bg-blob-2,
+        .bg-pattern,
+        .bg-grid,
+        .bg-dots,
+        .decoration-circle,
+        .bg-circle-1,
+        .bg-circle-2,
+        .grid-pattern,
+        .bg-blob,
+        .blob-1,
+        .blob-2,
+        .blob-3 {
+            display: none !important;
+        }
+</style>
+</head>
+<body style="">
+<div class="slide-container">
+<!-- Background -->
+<div class="bg-dots"></div>
+<!-- Header -->
+<header class="relative z-20 px-12 pt-10 pb-4 flex justify-between items-end">
+<div>
+<p class="text-blue-400 font-bold tracking-widest text-xs uppercase mb-2">Project Schedule</p>
+<h1 class="text-4xl font-extrabold text-white tracking-tight">Implementation Timeline</h1>
+<div class="h-1 w-24 bg-blue-500 mt-4 rounded-full"></div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex items-center justify-center relative z-10 w-full px-8">
+<div class="timeline-container">
+<!-- Central Horizontal Line -->
+<div class="timeline-line"></div>
+<div class="timeline-progress"></div>
+<!-- Month 1: Top -->
+<div class="timeline-item item-top month-1">
+<div class="content-card">
+<div class="flex items-center justify-between mb-1">
+<i class="fas fa-clipboard-list card-icon text-cyan-400"></i>
+<span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-0.5 rounded border border-cyan-800">Planning</span>
+</div>
+<h3 class="font-bold text-base">Requirement Gathering</h3>
+<p class="text-xs text-gray-300 leading-snug">
+                        Defining specs, UI dashboard design (wireframes), and establishing the initial MongoDB schema structure.
+                    </p>
+</div>
+<div class="connector-v"></div>
+<div class="node-circle">01</div>
+<div class="month-label">Month 1</div>
+</div>
+<!-- Month 2: Bottom -->
+<div class="timeline-item item-bottom month-2">
+<div class="node-circle">02</div>
+<div class="month-label">Month 2</div>
+<div class="connector-v"></div>
+<div class="content-card">
+<div class="flex items-center justify-between mb-1">
+<i class="fas fa-code card-icon text-blue-400"></i>
+<span class="text-xs bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded border border-blue-800">Development</span>
+</div>
+<h3 class="font-bold text-base">Backend &amp; Builds</h3>
+<p class="text-xs text-gray-300 leading-snug">
+                        Developing the Node.js orchestration engine and integrating the Docker daemon for automated image builds.
+                    </p>
+</div>
+</div>
+<!-- Month 3: Top -->
+<div class="timeline-item item-top month-3">
+<div class="content-card">
+<div class="flex items-center justify-between mb-1">
+<i class="fas fa-dharmachakra card-icon text-violet-400"></i>
+<span class="text-xs bg-violet-900/50 text-violet-300 px-2 py-0.5 rounded border border-violet-800">Orchestration</span>
+</div>
+<h3 class="font-bold text-base">Kubernetes &amp; Proxy</h3>
+<p class="text-xs text-gray-300 leading-snug">
+                        Implementing Kubernetes cluster management and dynamic Nginx reverse proxy routing logic.
+                    </p>
+</div>
+<div class="connector-v"></div>
+<div class="node-circle">03</div>
+<div class="month-label">Month 3</div>
+</div>
+<!-- Month 4: Bottom -->
+<div class="timeline-item item-bottom month-4">
+<div class="node-circle">04</div>
+<div class="month-label">Month 4</div>
+<div class="connector-v"></div>
+<div class="content-card">
+<div class="flex items-center justify-between mb-1">
+<i class="fas fa-bug card-icon text-orange-400"></i>
+<span class="text-xs bg-orange-900/50 text-orange-300 px-2 py-0.5 rounded border border-orange-800">Testing</span>
+</div>
+<h3 class="font-bold text-base">Integration &amp; GCP</h3>
+<p class="text-xs text-gray-300 leading-snug">
+                        Full system integration testing, bug fixing, and deployment trials on Google Cloud Platform.
+                    </p>
+</div>
+</div>
+<!-- Month 5: Top -->
+<div class="timeline-item item-top month-5">
+<div class="content-card">
+<div class="flex items-center justify-between mb-1">
+<i class="fas fa-file-alt card-icon text-emerald-400"></i>
+<span class="text-xs bg-emerald-900/50 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">Closure</span>
+</div>
+<h3 class="font-bold text-base">Documentation</h3>
+<p class="text-xs text-gray-300 leading-snug">
+                        Finalizing technical documentation, generating DFD/ER diagrams, and preparing the project report.
+                    </p>
+</div>
+<div class="connector-v"></div>
+<div class="node-circle">05</div>
+<div class="month-label">Month 5</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

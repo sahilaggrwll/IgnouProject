@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Project Report Navigator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:#0f172a; color:white; width:1280px; min-height:720px; overflow-y:auto; }
+
+  .page { width:1280px; min-height:720px; display:flex; flex-direction:column; position:relative; isolation:isolate; padding:36px 72px 50px; }
+  .page::before { content:''; position:fixed; inset:0; z-index:-1; background:#0f172a; background-image:radial-gradient(circle at 75% 15%, rgba(59,130,246,0.15), transparent 30%), radial-gradient(circle at 15% 85%, rgba(99,102,241,0.12), transparent 30%), linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px); background-size:auto,auto,40px 40px,40px 40px; }
+  .top-bar { position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,#1d4ed8,#6366f1,#1d4ed8); }
+
+  header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:22px; }
+  .hdr-left p { font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#3b82f6; margin-bottom:4px; }
+  .hdr-left h1 { font-size:26px; font-weight:800; color:white; }
+  .hdr-left .sub { font-size:12px; color:#475569; margin-top:4px; }
+  .hdr-right { display:flex; gap:8px; align-items:center; }
+  .stat-chip { padding:5px 14px; border:1px solid rgba(71,85,105,0.5); border-radius:999px; font-size:10px; color:#94a3b8; }
+  .stat-chip strong { color:#60a5fa; }
+
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+
+  .nav-card { display:block; text-decoration:none; padding:12px 14px; border:1px solid rgba(71,85,105,0.5); border-radius:12px; background:rgba(15,23,42,0.8); backdrop-filter:blur(10px); transition:all 0.18s ease; position:relative; overflow:hidden; }
+  .nav-card:hover { border-color:rgba(59,130,246,0.6); background:rgba(30,41,59,0.9); transform:translateY(-2px); box-shadow:0 8px 24px rgba(2,6,23,0.4); }
+  .nav-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; border-radius:2px 0 0 2px; }
+
+  .prelim .nav-card::before { background:#6366f1; }
+  .ch1 .nav-card::before { background:#3b82f6; }
+  .ch2a .nav-card::before { background:#06b6d4; }
+  .ch2b .nav-card::before { background:#10b981; }
+  .ch2c .nav-card::before { background:#14b8a6; }
+  .ch2d .nav-card::before { background:#8b5cf6; }
+  .ch2e .nav-card::before { background:#a855f7; }
+  .ch3 .nav-card::before { background:#ec4899; }
+  .ch4 .nav-card::before { background:#f59e0b; }
+  .ch5 .nav-card::before { background:#ef4444; }
+  .ch6 .nav-card::before { background:#f43f5e; }
+  .ch7 .nav-card::before { background:#34d399; }
+  .refs .nav-card::before { background:#94a3b8; }
+  .app .nav-card::before { background:#64748b; }
+
+  .card-tag { font-size:8px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#475569; margin-bottom:4px; }
+  .card-num { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:#3b82f6; margin-bottom:3px; }
+  .card-title { font-size:12px; font-weight:700; color:#e2e8f0; margin-bottom:3px; line-height:1.25; }
+  .card-sub { font-size:9px; color:#64748b; line-height:1.35; }
+  .card-icon { position:absolute; bottom:10px; right:12px; font-size:16px; opacity:0.12; }
+  .open-arrow { display:inline-flex; align-items:center; gap:4px; margin-top:6px; font-size:9px; font-weight:700; color:#3b82f6; letter-spacing:0.08em; text-transform:uppercase; }
+
+  /* Section label above groups */
+  .section-label { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#334155; grid-column:1/-1; padding-top:4px; padding-bottom:4px; border-bottom:1px solid rgba(71,85,105,0.2); margin-bottom:2px; }
+
+  .footer { margin-top:20px; display:flex; justify-content:space-between; align-items:center; font-size:9px; color:#334155; border-top:1px solid rgba(71,85,105,0.15); padding-top:10px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <header>
+    <div class="hdr-left">
+      <p>MCSP-232 &nbsp;|&nbsp; MCA Project Report</p>
+      <h1>Automated Cloud Deployment Engine</h1>
+      <p class="sub">Report Navigator — Click any card to open that section &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</p>
+    </div>
+    <div class="hdr-right">
+      <div class="stat-chip">Pages: <strong>19</strong></div>
+      <div class="stat-chip">Chapters: <strong>7</strong></div>
+      <div class="stat-chip">Status: <strong style="color:#34d399;">Complete</strong></div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <p class="section-label">Preliminary Pages</p>
+
+    <!-- R00 Cover -->
+    <div class="prelim">
+      <a href="R00_Cover.html" class="nav-card">
+        <p class="card-tag">Preliminary — i</p>
+        <p class="card-title">Cover / Title Page</p>
+        <p class="card-sub">University, course code, student &amp; guide details</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-bookmark card-icon"></i>
+      </a>
+    </div>
+
+    <!-- R01 Certificate -->
+    <div class="prelim">
+      <a href="R01_Certificate.html" class="nav-card">
+        <p class="card-tag">Preliminary — ii</p>
+        <p class="card-title">Certificate from Guide</p>
+        <p class="card-sub">Guide &amp; student signatures, institution details</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-certificate card-icon"></i>
+      </a>
+    </div>
+
+    <!-- R12 Originality -->
+    <div class="prelim">
+      <a href="R12_Originality.html" class="nav-card">
+        <p class="card-tag">Preliminary — iii</p>
+        <p class="card-title">Certificate of Originality</p>
+        <p class="card-sub">Separate plagiarism declaration (IGNOU mandatory)</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-shield-check card-icon"></i>
+      </a>
+    </div>
+
+    <!-- R02 Ack + TOC -->
+    <div class="prelim">
+      <a href="R02_Acknowledgement_TOC.html" class="nav-card">
+        <p class="card-tag">Preliminary — iv &amp; v</p>
+        <p class="card-title">Acknowledgement &amp; Table of Contents</p>
+        <p class="card-sub">Gratitude note + full chapter index with page references</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-list card-icon"></i>
+      </a>
+    </div>
+
+    <!-- R14 List of Figures / Abbreviations -->
+    <div class="prelim">
+      <a href="R14_ListFigures_Abbrev.html" class="nav-card">
+        <p class="card-tag">Preliminary — vi</p>
+        <p class="card-title">List of Figures, Tables &amp; Abbreviations</p>
+        <p class="card-sub">14 figures, 12 tables, 20 abbreviations indexed</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-list-ol card-icon"></i>
+      </a>
+    </div>
+
+    <!-- spacer -->
+    <div></div><div></div><div></div>
+
+    <p class="section-label">Chapters</p>
+
+    <!-- Ch1 -->
+    <div class="ch1">
+      <a href="R03_Ch1_Introduction.html" class="nav-card">
+        <p class="card-num">Ch 1</p>
+        <p class="card-title">Introduction &amp; Objectives</p>
+        <p class="card-sub">Background, problem statement, 5 objectives, project scope</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-rocket card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch2a -->
+    <div class="ch2a">
+      <a href="R04_Ch2a_SystemAnalysis.html" class="nav-card">
+        <p class="card-num">Ch 2A</p>
+        <p class="card-title">System Analysis — Existing &amp; Proposed</p>
+        <p class="card-sub">Manual vs. ACDE, SRS, hardware &amp; software constraints</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-search card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch2b -->
+    <div class="ch2b">
+      <a href="R05_Ch2b_DFD_ER_Agile.html" class="nav-card">
+        <p class="card-num">Ch 2B</p>
+        <p class="card-title">DFD, ER Diagram, Agile &amp; Gantt</p>
+        <p class="card-sub">Level 0/1 DFDs, ER diagram, 5-sprint Agile map, Gantt chart</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-project-diagram card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch2c -->
+    <div class="ch2c">
+      <a href="R15_Feasibility_COCOMO.html" class="nav-card">
+        <p class="card-num">Ch 2C</p>
+        <p class="card-title">Feasibility Study &amp; COCOMO</p>
+        <p class="card-sub">Technical/Operational/Economic/Schedule feasibility + COCOMO cost estimation</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-calculator card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch2d -->
+    <div class="ch2d">
+      <a href="R16_UseCase_PERT.html" class="nav-card">
+        <p class="card-num">Ch 2D</p>
+        <p class="card-title">Use Case Diagram &amp; PERT Chart</p>
+        <p class="card-sub">6 use cases with actors; PERT network diagram with Te formula &amp; critical path</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-sitemap card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch2e -->
+    <div class="ch2e">
+      <a href="R17_Sequence_DFD_L2.html" class="nav-card">
+        <p class="card-num">Ch 2E</p>
+        <p class="card-title">Sequence Diagram &amp; DFD Level 2</p>
+        <p class="card-sub">17-step deploy pipeline sequence + P3 orchestration decomposition</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-random card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch3 -->
+    <div class="ch3">
+      <a href="R06_Ch3_SystemDesign.html" class="nav-card">
+        <p class="card-num">Ch 3A</p>
+        <p class="card-title">System Design</p>
+        <p class="card-sub">Module breakdown, DB schema, data integrity, UI screen descriptions</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-drafting-compass card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch3 Data Dictionary -->
+    <div class="ch3">
+      <a href="R18_DataDictionary.html" class="nav-card">
+        <p class="card-num">Ch 3B</p>
+        <p class="card-title">Data Dictionary</p>
+        <p class="card-sub">Formal field-by-field data dictionary for all 4 MongoDB collections</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-table card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch4 -->
+    <div class="ch4">
+      <a href="R07_Ch4_Coding.html" class="nav-card">
+        <p class="card-num">Ch 4</p>
+        <p class="card-title">Coding &amp; Implementation</p>
+        <p class="card-sub">Tech stack justification, Mongoose schema, pipeline &amp; port probe code</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-code card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch5 -->
+    <div class="ch5">
+      <a href="R08_Ch5_Testing.html" class="nav-card">
+        <p class="card-num">Ch 5</p>
+        <p class="card-title">Testing</p>
+        <p class="card-sub">Strategy, TC-01–TC-05 test table, Mocha output, 3 debug cases</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-vial card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch6 -->
+    <div class="ch6">
+      <a href="R09_Ch6_Security.html" class="nav-card">
+        <p class="card-num">Ch 6</p>
+        <p class="card-title">System Security</p>
+        <p class="card-sub">Traffic flow, bcrypt/JWT, RBAC table, container isolation, K8s NetworkPolicy</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-shield-alt card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Ch7 -->
+    <div class="ch7">
+      <a href="R10_Ch7_Conclusion.html" class="nav-card">
+        <p class="card-num">Ch 7</p>
+        <p class="card-title">Conclusion &amp; Future Scope</p>
+        <p class="card-sub">Summary, 4 achievements, 6 limitations, 4 v2.0 future features</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-flag-checkered card-icon"></i>
+      </a>
+    </div>
+
+    <p class="section-label">Appendices &amp; Back Matter</p>
+
+    <!-- References -->
+    <div class="refs">
+      <a href="R11_References.html" class="nav-card">
+        <p class="card-num">Appendix B</p>
+        <p class="card-title">References &amp; Bibliography</p>
+        <p class="card-sub">13 IEEE-format references: books, official docs, web sources</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-book-open card-icon"></i>
+      </a>
+    </div>
+
+    <!-- Screen Layouts -->
+    <div class="app">
+      <a href="R19_ScreenLayouts.html" class="nav-card">
+        <p class="card-num">Appendix A</p>
+        <p class="card-title">Screen Layouts / UI Wireframes</p>
+        <p class="card-sub">Login, Dashboard, Projects list, Project detail with SSE log terminal</p>
+        <p class="open-arrow">Open <i class="fas fa-arrow-right"></i></p>
+        <i class="fas fa-desktop card-icon"></i>
+      </a>
+    </div>
+
+    <div></div><div></div>
+
+  </div>
+
+  <div class="footer">
+    <span>Automated Cloud Deployment Engine (ACDE) &nbsp;|&nbsp; IGNOU MCSP-232 &nbsp;|&nbsp; MCA (New Syllabus) &nbsp;|&nbsp; 2025–2026</span>
+    <span>19 pages &nbsp;|&nbsp; All technical chapters complete &nbsp;✓</span>
+  </div>
+</div>
+</body>
+</html>

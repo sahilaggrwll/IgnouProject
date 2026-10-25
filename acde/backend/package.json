@@ -1,0 +1,23 @@
+{
+  "name": "acde-backend",
+  "version": "1.0.0",
+  "description": "Automated Cloud Deployment Engine - Backend API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-validator": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "localtunnel": "^2.0.2",
+    "mongoose": "^8.7.0",
+    "simple-git": "^3.27.0",
+    "uuid": "^10.0.0"
+  }
+}

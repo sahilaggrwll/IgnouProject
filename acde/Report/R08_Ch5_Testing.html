@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 5: Testing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .pass-badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:9px; font-weight:700; border:1px solid rgba(52,211,153,0.4); background:rgba(6,95,70,0.2); color:#6ee7b7; }
+  .fail-badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:9px; font-weight:700; border:1px solid rgba(251,113,133,0.4); background:rgba(159,18,57,0.2); color:#fda4af; }
+  .debug-item { padding:8px 10px; border:1px solid rgba(71,85,105,0.4); border-radius:10px; background:rgba(30,41,59,0.5); margin-bottom:7px; }
+  .debug-item:last-child { margin-bottom:0; }
+  .debug-err { font-size:10px; font-weight:700; color:#f87171; font-family:'JetBrains Mono',monospace; margin-bottom:3px; }
+  .debug-fix { font-size:10px; color:#94a3b8; line-height:1.4; }
+  .debug-fix strong { color:#6ee7b7; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 5</p>
+      <h1 class="chapter-title">Testing</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-vial"></i> Quality Assurance</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT -->
+    <div class="col">
+
+      <!-- 5.1 Strategy -->
+      <div class="card card-accent-blue">
+        <p class="section-h">5.1 Testing Strategy &amp; Plan</p>
+        <p class="card-body" style="margin-bottom:8px;">ACDE employs a multi-level verification approach using the <strong>Mocha + Chai</strong> testing framework with a live MongoDB test database. Three tiers of coverage are applied:</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+          <div style="padding:8px; border:1px solid rgba(59,130,246,0.3); border-radius:10px; background:rgba(30,64,175,0.12); text-align:center;">
+            <p style="font-size:9px; font-weight:700; color:#60a5fa; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Unit</p>
+            <p style="font-size:10px; color:#94a3b8; line-height:1.35;">Login handling, Git URL validation, request sanitisation</p>
+          </div>
+          <div style="padding:8px; border:1px solid rgba(6,182,212,0.3); border-radius:10px; background:rgba(8,145,178,0.12); text-align:center;">
+            <p style="font-size:9px; font-weight:700; color:#22d3ee; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Integration</p>
+            <p style="font-size:10px; color:#94a3b8; line-height:1.35;">Clone → build → status update, MongoDB writes confirmed</p>
+          </div>
+          <div style="padding:8px; border:1px solid rgba(52,211,153,0.3); border-radius:10px; background:rgba(6,95,70,0.12); text-align:center;">
+            <p style="font-size:9px; font-weight:700; color:#34d399; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">System / Security</p>
+            <p style="font-size:10px; color:#94a3b8; line-height:1.35;">Live routing, failure logging, ownership enforcement</p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px;">
+          <div style="padding:6px 10px; border:1px solid rgba(52,211,153,0.3); border-radius:8px; background:rgba(6,95,70,0.15);">
+            <p style="font-size:8px; font-weight:700; color:#34d399; text-transform:uppercase; margin-bottom:2px;">Pass Criteria</p>
+            <p style="font-size:10px; color:#a7f3d0;">Expected status codes and DB records produced.</p>
+          </div>
+          <div style="padding:6px 10px; border:1px solid rgba(251,113,133,0.3); border-radius:8px; background:rgba(159,18,57,0.15);">
+            <p style="font-size:8px; font-weight:700; color:#f87171; text-transform:uppercase; margin-bottom:2px;">Fail Criteria</p>
+            <p style="font-size:10px; color:#fda4af;">Errors logged; deployment status set to <code>failed</code>.</p>
+          </div>
+          <div style="padding:6px 10px; border:1px solid rgba(251,146,60,0.3); border-radius:8px; background:rgba(120,53,15,0.15);">
+            <p style="font-size:8px; font-weight:700; color:#fb923c; text-transform:uppercase; margin-bottom:2px;">Exit Condition</p>
+            <p style="font-size:10px; color:#fed7aa;">All 5 sample cases pass before submission.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5.2 + 5.3 Test Cases -->
+      <div class="card card-accent-green">
+        <p class="section-h">5.2 &amp; 5.3 Unit, Integration &amp; System Test Cases</p>
+        <div class="tbl-shell">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th style="width:8%">TC</th>
+                <th style="width:14%">Level</th>
+                <th style="width:24%">Scenario</th>
+                <th style="width:30%">Expected Result</th>
+                <th style="width:12%">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-family:'JetBrains Mono',monospace; color:#60a5fa; font-weight:700;">TC-01</td>
+                <td><span class="pill pill-blue">Unit</span></td>
+                <td>Submit correct email + password to login API</td>
+                <td>HTTP 200; JWT returned; user session accepted</td>
+                <td><span class="pass-badge"><i class="fas fa-check"></i> Pass</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:'JetBrains Mono',monospace; color:#60a5fa; font-weight:700;">TC-02</td>
+                <td><span class="pill pill-blue">Unit</span></td>
+                <td>Send malformed Git URL in deploy request</td>
+                <td>HTTP 400; validation fails; no DB record created</td>
+                <td><span class="pass-badge"><i class="fas fa-check"></i> Pass</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:'JetBrains Mono',monospace; color:#60a5fa; font-weight:700;">TC-03</td>
+                <td><span class="pill pill-purple">Integration</span></td>
+                <td>Provide valid repo URL; trigger deploy from dashboard</td>
+                <td>Repo cloned; image built; status moves to <code>deployed</code></td>
+                <td><span class="pass-badge"><i class="fas fa-check"></i> Pass</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:'JetBrains Mono',monospace; color:#60a5fa; font-weight:700;">TC-04</td>
+                <td><span class="pill pill-green">System</span></td>
+                <td>Deploy repo with forced dependency error</td>
+                <td>Failure recorded in Logs; deployment status = <code>failed</code></td>
+                <td><span class="pass-badge"><i class="fas fa-check"></i> Pass</span></td>
+              </tr>
+              <tr>
+                <td style="font-family:'JetBrains Mono',monospace; color:#60a5fa; font-weight:700;">TC-05</td>
+                <td><span class="pill pill-red">Security</span></td>
+                <td>Log in as User B; request project owned by User A</td>
+                <td>HTTP 403; no data exposed; ownership error returned</td>
+                <td><span class="pass-badge"><i class="fas fa-check"></i> Pass</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+
+      <!-- Test run output -->
+      <div class="card card-accent-purple">
+        <p class="section-h">5.2 Unit Test Results — Mocha Output</p>
+        <div class="code-block" style="font-size:9.5px; line-height:1.7;">
+<span class="cm">$ cd backend && npm test</span>
+
+<span class="fn">  ACDE API Test Suite</span>
+    <span class="fn">Auth Routes</span>
+      <span class="str">✓</span> POST /api/auth/register — creates user + returns JWT  <span class="cm">(312ms)</span>
+      <span class="str">✓</span> POST /api/auth/login — valid credentials return JWT   <span class="cm">(198ms)</span>
+      <span class="str">✓</span> POST /api/auth/login — wrong password returns 401    <span class="cm">(203ms)</span>
+    <span class="fn">Project Routes</span>
+      <span class="str">✓</span> POST /api/projects — creates project in MongoDB       <span class="cm">(89ms)</span>
+      <span class="str">✓</span> POST /api/projects — invalid git URL rejected (400)  <span class="cm">(45ms)</span>
+      <span class="str">✓</span> GET  /api/projects/:id — cross-user request → 403    <span class="cm">(67ms)</span>
+    <span class="fn">Validator Unit Tests</span>
+      <span class="str">✓</span> isValidGitUrl — accepts github.com HTTPS URL         <span class="cm">(3ms)</span>
+      <span class="str">✓</span> isValidGitUrl — rejects javascript: protocol         <span class="cm">(2ms)</span>
+
+  <span class="str">8 passing</span> <span class="cm">(929ms)</span>
+        </div>
+      </div>
+
+      <!-- 5.4 Debugging -->
+      <div class="card card-accent-orange">
+        <p class="section-h">5.4 Debugging — Errors Encountered &amp; Resolved</p>
+
+        <div class="debug-item">
+          <p class="debug-err">Error: Bind for 0.0.0.0:31000 failed — port already allocated</p>
+          <p class="debug-fix"><strong>Cause:</strong> Port allocator only queried MongoDB; orphaned Docker container still held the port at OS level.<br>
+          <strong>Fix:</strong> Added <code>isPortFree(port)</code> using <code>net.createServer()</code> to probe TCP bind before allocation (<code>ports.js</code>).</p>
+        </div>
+
+        <div class="debug-item">
+          <p class="debug-err">Error: MongoServerError — E11000 duplicate key (email)</p>
+          <p class="debug-fix"><strong>Cause:</strong> Parallel test runs both tried to insert the same seed user email.<br>
+          <strong>Fix:</strong> Added <code>before()</code> hook in test suite to drop the users collection; <code>after()</code> hook to clean up.</p>
+        </div>
+
+        <div class="debug-item">
+          <p class="debug-err">Error: SSE stream closed prematurely on long builds</p>
+          <p class="debug-fix"><strong>Cause:</strong> Nginx default <code>proxy_read_timeout</code> of 60 s killed the streaming connection mid-build.<br>
+          <strong>Fix:</strong> Added <code>proxy_read_timeout 3600s;</code> to the Nginx conf template for SSE endpoints.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 5 — Page 5</span>
+  </div>
+</div>
+</body>
+</html>

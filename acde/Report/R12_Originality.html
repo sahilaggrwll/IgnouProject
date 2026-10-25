@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Certificate of Originality</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .outer-border { flex:1; border:2px solid rgba(59,130,246,0.35); border-radius:18px; padding:28px 40px; display:flex; flex-direction:column; background:rgba(15,23,42,0.85); backdrop-filter:blur(12px); position:relative; overflow:hidden; }
+  .outer-border::before { content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px; border:1px solid rgba(71,85,105,0.25); border-radius:12px; pointer-events:none; }
+  .corner { position:absolute; width:20px; height:20px; border-color:rgba(59,130,246,0.5); border-style:solid; }
+  .corner-tl { top:16px; left:16px; border-width:2px 0 0 2px; border-radius:4px 0 0 0; }
+  .corner-tr { top:16px; right:16px; border-width:2px 2px 0 0; border-radius:0 4px 0 0; }
+  .corner-bl { bottom:16px; left:16px; border-width:0 0 2px 2px; border-radius:0 0 0 4px; }
+  .corner-br { bottom:16px; right:16px; border-width:0 2px 2px 0; border-radius:0 0 4px 0; }
+  .cert-header { text-align:center; margin-bottom:24px; }
+  .cert-icon { width:56px; height:56px; border-radius:50%; background:rgba(59,130,246,0.15); border:2px solid rgba(59,130,246,0.4); display:flex; align-items:center; justify-content:center; font-size:22px; color:#60a5fa; margin:0 auto 14px; }
+  .cert-title { font-size:26px; font-weight:800; color:white; margin-bottom:4px; }
+  .cert-subtitle { font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#3b82f6; }
+  .divider { height:1px; background:linear-gradient(90deg, transparent, rgba(59,130,246,0.4), transparent); margin:20px 0; }
+  .cert-body { font-size:13px; line-height:1.9; color:#cbd5e1; text-align:center; }
+  .cert-body strong { color:#e2e8f0; }
+  .cert-body .highlight { color:#60a5fa; font-weight:600; }
+  .cert-body .title-quote { display:block; font-size:16px; font-weight:700; color:white; margin:12px 0; letter-spacing:0.01em; }
+  .sig-row { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:24px; }
+  .sig-block { padding:16px 20px; border:1px solid rgba(71,85,105,0.4); border-radius:12px; background:rgba(30,41,59,0.5); }
+  .sig-line { height:44px; border-bottom:1px dashed rgba(59,130,246,0.4); margin-bottom:10px; display:flex; align-items:flex-end; padding-bottom:6px; }
+  .sig-name { font-size:13px; font-weight:700; color:#e2e8f0; }
+  .sig-role { font-size:10px; color:#64748b; margin-top:2px; }
+  .sig-date { display:flex; gap:8px; margin-top:8px; font-size:10px; }
+  .sig-date span { color:#475569; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  .sig-date em { color:#94a3b8; font-style:normal; }
+  .seal { position:absolute; bottom:28px; right:36px; width:72px; height:72px; border-radius:50%; border:2px dashed rgba(59,130,246,0.3); display:flex; align-items:center; justify-content:center; flex-direction:column; }
+  .seal-text { font-size:7px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#334155; text-align:center; line-height:1.4; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Preliminary — iii</p>
+      <h1 class="chapter-title">Certificate of Originality</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-award"></i> Authenticity Declaration</span>
+  </div>
+
+  <div class="outer-border">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="cert-header">
+      <div class="cert-icon"><i class="fas fa-shield-check"></i></div>
+      <h2 class="cert-title">Certificate of Originality</h2>
+      <p class="cert-subtitle">Declaration of Authentic &amp; Independent Work</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cert-body">
+      <p>
+        We hereby declare and certify that the project report entitled:
+      </p>
+      <span class="title-quote">
+        "Automated Cloud Deployment Engine (ACDE) — A Containerised Platform as a Service"
+      </span>
+      <p>
+        submitted by <strong>Mr. Sahil Aggarwal</strong> (Enrolment No. <span class="highlight">2500675011</span>)
+        in partial fulfilment of the requirements for the award of the degree of
+        <strong>Master of Computer Applications (MCA — New Syllabus)</strong>, course <span class="highlight">MCSP-232</span>,
+        to the <strong>School of Computer &amp; Information Sciences (SOCIS), IGNOU, New Delhi</strong>,
+        represents <em>bonafide original work</em> carried out independently under proper academic guidance.
+      </p>
+      <br>
+      <p>
+        The work has <strong>not been submitted</strong>, in part or in full, to any other university or institution
+        for the award of any degree, diploma, or certificate. All references, diagrams, and third-party
+        materials have been duly acknowledged in the bibliography.
+      </p>
+    </div>
+
+    <div class="sig-row">
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <p class="sig-name">Sahil Aggarwal</p>
+        <p class="sig-role">Student &nbsp;|&nbsp; Enrolment No. 2500675011</p>
+        <p class="sig-role">MCA (New) — SOCIS, IGNOU, New Delhi</p>
+        <div class="sig-date"><span>Date:</span><em>____________________</em></div>
+        <div class="sig-date"><span>Place:</span><em>____________________</em></div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <p class="sig-name">Aishwariya Singh</p>
+        <p class="sig-role">Project Guide &nbsp;|&nbsp; Senior Software Engineer</p>
+        <p class="sig-role">Headout Inc., Bangalore, Karnataka</p>
+        <div class="sig-date"><span>Date:</span><em>____________________</em></div>
+        <div class="sig-date"><span>Place:</span><em>Bangalore, Karnataka</em></div>
+      </div>
+    </div>
+
+    <div class="seal">
+      <p class="seal-text">Guide's<br>Official<br>Stamp</p>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Preliminary — Page iii</span>
+  </div>
+</div>
+</body>
+</html>

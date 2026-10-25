@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Guide Bio-data</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .profile-grid { display:grid; grid-template-columns:220px 1fr; gap:20px }
+  .profile-left { display:flex; flex-direction:column; gap:14px; }
+  .avatar-box { padding:20px; border:1px solid rgba(59,130,246,0.4); border-radius:16px; background:rgba(15,23,42,0.85); text-align:center; }
+  .avatar-ring { width:80px; height:80px; border-radius:50%; border:3px solid rgba(59,130,246,0.5); background:rgba(30,64,175,0.2); display:flex; align-items:center; justify-content:center; font-size:32px; color:#60a5fa; margin:0 auto 14px; }
+  .guide-name { font-size:16px; font-weight:800; color:white; margin-bottom:3px; }
+  .guide-title { font-size:10px; color:#60a5fa; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  .contact-card { padding:14px 16px; border:1px solid rgba(71,85,105,0.45); border-radius:12px; background:rgba(15,23,42,0.8); }
+  .contact-label { font-size:9px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#475569; margin-bottom:8px; }
+  .contact-row { display:flex; gap:8px; align-items:flex-start; margin-bottom:6px; font-size:10.5px; color:#94a3b8; }
+  .contact-row:last-child { margin-bottom:0; }
+  .contact-row i { color:#3b82f6; width:14px; flex-shrink:0; margin-top:2px; }
+  .eligibility-card { padding:12px 14px; border:1px solid rgba(52,211,153,0.35); border-radius:12px; background:rgba(6,95,70,0.12); }
+  .elig-title { font-size:9px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#34d399; margin-bottom:6px; }
+  .elig-row { display:flex; gap:6px; align-items:center; margin-bottom:4px; font-size:10px; color:#a7f3d0; }
+  .elig-row i { color:#34d399; font-size:9px; }
+  /* Right panels */
+  .profile-right { display:flex; flex-direction:column; gap:12px; min-height:0; }
+  .info-row { display:flex; gap:8px; align-items:flex-start; padding:6px 0; border-bottom:1px solid rgba(51,65,85,0.5); }
+  .info-row:last-child { border-bottom:none; }
+  .info-label { font-size:9.5px; font-weight:700; color:#475569; width:130px; flex-shrink:0; letter-spacing:0.05em; text-transform:uppercase; padding-top:1px; }
+  .info-value { font-size:11px; color:#cbd5e1; flex:1; line-height:1.45; }
+  .info-value strong { color:#e2e8f0; }
+  .info-value .blue { color:#60a5fa; }
+  .sig-block2 { padding:16px 20px; border:1px solid rgba(71,85,105,0.4); border-radius:12px; background:rgba(30,41,59,0.5); margin-top:4px; }
+  .sig-line2 { height:40px; border-bottom:1px dashed rgba(59,130,246,0.4); margin-bottom:8px; }
+  .decl { font-size:10.5px; color:#94a3b8; line-height:1.55; margin-bottom:10px; }
+  .decl strong { color:#e2e8f0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Preliminary — v</p>
+      <h1 class="chapter-title">Bio-data of Project Guide</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-user-tie"></i> Guide Details</span>
+  </div>
+
+  <div class="profile-grid" style="">
+
+    <!-- LEFT -->
+    <div class="profile-left">
+      <div class="avatar-box">
+        <div class="avatar-ring"><i class="fas fa-user-graduate"></i></div>
+        <p class="guide-name">Aishwariya Singh</p>
+        <p class="guide-title">Project Guide</p>
+      </div>
+
+      <div class="contact-card">
+        <p class="contact-label">Contact Details</p>
+        <div class="contact-row"><i class="fas fa-building"></i> Headout Inc., Bangalore, Karnataka — 560001</div>
+        <div class="contact-row"><i class="fas fa-envelope"></i> aishwariya.singh@headout.com</div>
+        <div class="contact-row"><i class="fas fa-map-marker-alt"></i> Bangalore, Karnataka, India</div>
+      </div>
+
+      <div class="eligibility-card">
+        <p class="elig-title">IGNOU Guide Eligibility</p>
+        <div class="elig-row"><i class="fas fa-check"></i> MCA / M.Tech equivalent qualification</div>
+        <div class="elig-row"><i class="fas fa-check"></i> Active software engineering professional</div>
+        <div class="elig-row"><i class="fas fa-check"></i> Not guiding more than 5 IGNOU students</div>
+        <div class="elig-row"><i class="fas fa-check"></i> Domain: Cloud, DevOps, Backend Engineering</div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="profile-right">
+      <div class="card" style="border-color:rgba(71,85,105,0.5);">
+        <p class="section-h" style="margin-bottom:10px;">Personal &amp; Professional Information</p>
+        <div class="info-row"><span class="info-label">Full Name</span><span class="info-value"><strong>Aishwariya Singh</strong></span></div>
+        <div class="info-row"><span class="info-label">Designation</span><span class="info-value"><strong>Senior Software Engineer</strong></span></div>
+        <div class="info-row"><span class="info-label">Organisation</span><span class="info-value">Headout Inc., Bangalore, Karnataka</span></div>
+        <div class="info-row"><span class="info-label">Qualification</span><span class="info-value">B.Tech / M.Tech in Computer Science &amp; Engineering</span></div>
+        <div class="info-row"><span class="info-label">Experience</span><span class="info-value">5+ years in Backend Engineering, Cloud Infrastructure, and DevOps automation</span></div>
+        <div class="info-row"><span class="info-label">Domain Expertise</span><span class="info-value"><span class="blue">Node.js · Docker · Kubernetes · AWS/GCP · Microservices · REST APIs · CI/CD Pipelines</span></span></div>
+        <div class="info-row"><span class="info-label">Current Role</span><span class="info-value">Building and scaling backend systems serving millions of travel bookings globally at Headout</span></div>
+        <div class="info-row"><span class="info-label">No. of Students Guided</span><span class="info-value">1 (this project only — within IGNOU limit of 5)</span></div>
+        <div class="info-row"><span class="info-label">Guide Relationship</span><span class="info-value">Agreed to guide the project on the basis of technical relevance to her domain expertise in cloud deployment automation</span></div>
+      </div>
+
+      <div class="sig-block2">
+        <p class="decl">
+          I, <strong>Aishwariya Singh</strong>, hereby certify that the above information is true and correct to the best of my knowledge,
+          and that I have guided the student <strong>Sahil Aggarwal</strong> (Enrolment No. 2500675011) throughout the duration of
+          this MCSP-232 project in accordance with IGNOU guidelines.
+        </p>
+        <div class="sig-line2"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <p style="font-size:12px; font-weight:700; color:#e2e8f0;">Aishwariya Singh</p>
+            <p style="font-size:10px; color:#64748b;">Senior Software Engineer, Headout Inc.</p>
+          </div>
+          <div style="text-align:right;">
+            <p style="font-size:10px; color:#475569;">Date: ____________________</p>
+            <p style="font-size:10px; color:#475569; margin-top:4px;">Place: Bangalore, Karnataka</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Preliminary — Page v</span>
+  </div>
+</div>
+</body>
+</html>

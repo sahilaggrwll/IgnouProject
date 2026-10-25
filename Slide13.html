@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Software Engineering Paradigm</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+        body { margin: 0; padding: 0; overflow: hidden; font-family: 'Inter', sans-serif; background-color: #0f172a; }
+        .slide-container { width: 1280px; height: 720px; position: relative; display: flex; flex-direction: column; overflow: hidden; color: white; background-color: #0f172a; isolation: isolate; }
+        .slide-main { flex: 1; display: grid; grid-template-columns: 304px 1fr; gap: 16px; }
+        .panel { display: flex; flex-direction: column; gap: 10px; padding: 16px; border: 1px solid rgba(71, 85, 105, 0.56); border-radius: 18px; background-color: rgba(15, 23, 42, 0.8); box-shadow: 0 18px 50px rgba(2, 6, 23, 0.26); backdrop-filter: blur(12px); }
+        .mini-card, .status-card, .list-card { display: flex; gap: 12px; padding: 12px; border: 1px solid rgba(71, 85, 105, 0.46); border-radius: 16px; background-color: rgba(30, 41, 59, 0.7); }
+        .status-card { border-color: rgba(16, 185, 129, 0.38); background-color: rgba(6, 95, 70, 0.22); }
+        .card-icon { width: 38px; height: 38px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(59, 130, 246, 0.32); border-radius: 12px; background-color: rgba(30, 64, 175, 0.18); color: #60a5fa; font-size: 15px; }
+        .section-label { margin: 0 0 4px; color: #e2e8f0; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+        .section-title { margin: 0; font-size: 16px; line-height: 1.3; font-weight: 700; color: white; }
+        .section-copy { margin: 6px 0 0; color: #cbd5e1; font-size: 12px; line-height: 1.4; }
+        .highlight { color: #93c5fd; font-weight: 700; }
+        .agile-list { margin: 4px 0 0; padding: 0; list-style: none; }
+        .agile-list li { position: relative; margin-bottom: 5px; padding-left: 14px; color: #cbd5e1; font-size: 11px; line-height: 1.32; }
+        .agile-list li::before { content: ''; position: absolute; top: 6px; left: 0; width: 5px; height: 5px; border-radius: 999px; background-color: #60a5fa; }
+        .panel-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .panel-note { padding: 7px 12px; border: 1px solid rgba(71, 85, 105, 0.56); border-radius: 999px; background-color: rgba(15, 23, 42, 0.84); color: #cbd5e1; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; white-space: nowrap; }
+        .sprint-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        .sprint-card { display: flex; flex-direction: column; gap: 5px; min-height: 98px; padding: 10px; border: 1px solid rgba(71, 85, 105, 0.46); border-radius: 16px; background-color: rgba(30, 41, 59, 0.68); }
+        .span-2 { grid-column: span 2; }
+        .span-3 { grid-column: span 3; }
+        .phase-chip { display: inline-flex; align-items: center; gap: 6px; width: fit-content; padding: 5px 9px; border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 999px; background-color: rgba(15, 23, 42, 0.92); color: #e2e8f0; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+        .sprint-number { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(59, 130, 246, 0.42); border-radius: 999px; background-color: rgba(30, 64, 175, 0.2); color: #93c5fd; font-size: 13px; font-weight: 800; }
+        .sprint-title { margin: 0; color: white; font-size: 14px; line-height: 1.25; font-weight: 700; }
+        .sprint-copy { margin: 0; color: #cbd5e1; font-size: 11px; line-height: 1.3; }
+        .deliverable { margin-top: auto; padding-top: 3px; color: #93c5fd; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+        .summary-strip { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid rgba(34, 211, 238, 0.24); border-radius: 16px; background-color: rgba(8, 47, 73, 0.34); color: #e0f2fe; font-size: 11px; line-height: 1.35; }
+        .summary-strip strong { color: #67e8f9; white-space: nowrap; letter-spacing: 0.08em; text-transform: uppercase; }
+        .text-muted { color: #94a3b8; }
+
+        /* Shared Deck Background */
+        body, .slide-container { background: #0f172a !important; background-image: none !important; }
+        .slide-container { isolation: isolate; }
+        .slide-container::before {
+            content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: #0f172a;
+            background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%), radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 30%), linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px; background-position: top right, bottom left, 0 0, 0 0;
+        }
+</style>
+</head>
+<body>
+<div class="slide-container">
+    <header class="relative z-20 px-12 pt-10 pb-6 flex justify-between items-end">
+        <div>
+            <p class="text-blue-400 font-bold tracking-widest text-xs uppercase mb-2">Process Model</p>
+            <h1 class="text-4xl font-extrabold text-white tracking-tight">Software Engineering Paradigm</h1>
+            <div class="h-1 w-24 bg-blue-500 mt-4 rounded-full"></div>
+        </div>
+        <div class="px-4 py-2 border border-blue-500/30 rounded-full bg-slate-800/80 text-indigo-300 text-xs font-bold tracking-widest uppercase flex items-center gap-2">
+            <i class="fas fa-sync-alt"></i> Agile / Iterative-Incremental
+        </div>
+    </header>
+
+    <main class="slide-main relative z-10 px-12 pb-12">
+        <section class="panel">
+            <div class="mini-card">
+                <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
+                <div>
+                    <p class="section-label">Selected SE Paradigm</p>
+                    <h2 class="section-title">Agile, built in short validated iterations</h2>
+                    <p class="section-copy">ACDE followed an <span class="highlight">Agile iterative-incremental model</span> so build, deployment, and testing could be validated in small increments.</p>
+                </div>
+            </div>
+            <div class="status-card">
+                <div>
+                    <p class="section-label">Requirement Status</p>
+                    <p class="section-copy">IGNOU requirement satisfied: the paradigm is stated explicitly as <strong>Agile</strong> and linked to deliverables.</p>
+                </div>
+            </div>
+            <div class="list-card">
+                <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                <div>
+                    <p class="section-label">Why Agile Fits ACDE</p>
+                    <ul class="agile-list">
+                        <li>Requirements, design, build flow, and routing were delivered as short increments.</li>
+                        <li>Each stage used logs and test results as immediate feedback.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <p class="section-label text-muted">Iteration Map</p>
+                    <h2 class="section-title">Sprint-Oriented Delivery Sequence</h2>
+                </div>
+                <div class="panel-note">Review -> Build -> Test -> Refine</div>
+            </div>
+            <div class="sprint-grid">
+                <article class="sprint-card span-2">
+                    <div class="phase-chip"><i class="fas fa-search"></i> Sprint 1</div>
+                    <div class="sprint-number">01</div>
+                    <h3 class="sprint-title">Requirements and scope</h3>
+                    <p class="sprint-copy">Defined pain points, actors, and project boundaries.</p>
+                    <div class="deliverable">Output: problem statement</div>
+                </article>
+                <article class="sprint-card span-2">
+                    <div class="phase-chip"><i class="fas fa-drafting-compass"></i> Sprint 2</div>
+                    <div class="sprint-number">02</div>
+                    <h3 class="sprint-title">Architecture and design</h3>
+                    <p class="sprint-copy">Finalized system flow, DFD structure, and collections.</p>
+                    <div class="deliverable">Output: design set</div>
+                </article>
+                <article class="sprint-card span-2">
+                    <div class="phase-chip"><i class="fas fa-cogs"></i> Sprint 3</div>
+                    <div class="sprint-number">03</div>
+                    <h3 class="sprint-title">Core build automation</h3>
+                    <p class="sprint-copy">Implemented repository processing and Docker build logic.</p>
+                    <div class="deliverable">Output: build flow</div>
+                </article>
+                <article class="sprint-card span-3">
+                    <div class="phase-chip"><i class="fas fa-network-wired"></i> Sprint 4</div>
+                    <div class="sprint-number">04</div>
+                    <h3 class="sprint-title">Deployment integration</h3>
+                    <p class="sprint-copy">Connected Kubernetes deployment, routing, and logging.</p>
+                    <div class="deliverable">Output: live pipeline</div>
+                </article>
+                <article class="sprint-card span-3">
+                    <div class="phase-chip"><i class="fas fa-clipboard-check"></i> Sprint 5</div>
+                    <div class="sprint-number">05</div>
+                    <h3 class="sprint-title">Testing and closure</h3>
+                    <p class="sprint-copy">Executed verification and closed the report set.</p>
+                    <div class="deliverable">Output: final submission</div>
+                </article>
+            </div>
+            <div class="summary-strip">
+                <strong>Agile Outcome</strong>
+                <span>ACDE moved from concept to tested deployment through short feedback-driven iterations instead of a rigid Waterfall handoff.</span>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

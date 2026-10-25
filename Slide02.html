@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Introduction &amp; Problem Statement</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Background decorative elements */
+        .bg-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(15, 23, 42, 0) 70%);
+            top: -200px;
+            left: 240px;
+            z-index: 0;
+        }
+        
+        .grid-bg {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .content-card {
+            backdrop-filter: blur(12px);
+            background-color: rgba(30, 41, 59, 0.4);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .bullet-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .bullet-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .section-header-line {
+            height: 2px;
+            width: 60px;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+    
+        /* Shared Deck Background */
+        body,
+        .slide-container {
+            background: #0f172a !important;
+            background-image: none !important;
+        }
+
+        .slide-container {
+            isolation: isolate;
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%),
+                radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 30%),
+                linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px;
+            background-position: top right, bottom left, 0 0, 0 0;
+        }
+
+        .circle-decor-1,
+        .circle-decor-2,
+        .grid-line,
+        .grid-line-h,
+        .grid-line-v,
+        .bg-glow,
+        .grid-bg,
+        .bg-blob-1,
+        .bg-blob-2,
+        .bg-pattern,
+        .bg-grid,
+        .bg-dots,
+        .decoration-circle,
+        .bg-circle-1,
+        .bg-circle-2,
+        .grid-pattern,
+        .bg-blob,
+        .blob-1,
+        .blob-2,
+        .blob-3 {
+            display: none !important;
+        }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<!-- Background -->
+<div class="grid-bg"></div>
+<div class="bg-glow"></div>
+<!-- Header -->
+<header class="relative z-10 px-12 pt-10 pb-4 flex justify-between items-center">
+<div>
+<p class="text-blue-400 font-bold tracking-widest text-xs uppercase mb-1">Project Overview</p>
+<h1 class="text-4xl font-extrabold text-white tracking-tight">Introduction &amp; Problem Statement</h1>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex px-12 gap-8 relative z-10 pb-12">
+<!-- Left Column: Introduction (The Solution) -->
+<div class="flex-1 content-card border border-blue-500/30 rounded-xl p-8 flex flex-col relative overflow-hidden group">
+<!-- Decorative accent -->
+<div class="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
+<div class="absolute -right-12 -bottom-12 text-9xl text-blue-500 opacity-5 group-hover:opacity-10 transition-opacity">
+<i class="fas fa-rocket"></i>
+</div>
+<div class="flex items-center mb-2">
+<div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center mr-4 text-blue-400">
+<i class="fas fa-robot text-xl"></i>
+</div>
+<h2 class="text-2xl font-bold text-white">Introduction (The Solution)</h2>
+</div>
+<div class="section-header-line bg-blue-500"></div>
+<div class="space-y-6 text-gray-200">
+<p class="text-lg leading-relaxed font-light">
+                        The <strong class="text-white">Automated Cloud Deployment Engine (ACDE)</strong> is a custom Platform as a Service (PaaS) designed to eliminate manual inefficiencies by fully automating the software deployment pipeline.
+                    </p>
+<div class="space-y-4 mt-6">
+<div class="bullet-point">
+<div class="bullet-icon bg-blue-500/20 text-blue-400">
+<i class="fas fa-check text-xs"></i>
+</div>
+<p class="text-base">Transforms raw <strong>Git Source Code</strong> directly into a live, accessible <strong>Web URL</strong>.</p>
+</div>
+<div class="bullet-point">
+<div class="bullet-icon bg-blue-500/20 text-blue-400">
+<i class="fas fa-check text-xs"></i>
+</div>
+<p class="text-base">Runs natively on <strong>Ubuntu</strong> using isolated container technology.</p>
+</div>
+<div class="bullet-point">
+<div class="bullet-icon bg-blue-500/20 text-blue-400">
+<i class="fas fa-check text-xs"></i>
+</div>
+<p class="text-base">Automates server provisioning, build processes, and routing configuration.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Problem (The Challenge) -->
+<div class="flex-1 content-card border border-red-500/30 rounded-xl p-8 flex flex-col relative overflow-hidden group">
+<!-- Decorative accent -->
+<div class="absolute top-0 left-0 w-1.5 h-full bg-red-500"></div>
+<div class="absolute -right-12 -bottom-12 text-9xl text-red-500 opacity-5 group-hover:opacity-10 transition-opacity">
+<i class="fas fa-exclamation-triangle"></i>
+</div>
+<div class="flex items-center mb-2">
+<div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center mr-4 text-red-400">
+<i class="fas fa-hand-paper text-xl"></i>
+</div>
+<h2 class="text-2xl font-bold text-white">Problem Definition (The Challenge)</h2>
+</div>
+<div class="section-header-line bg-red-500"></div>
+<div class="space-y-6 text-gray-200">
+<p class="text-lg leading-relaxed font-light">
+                        The traditional software deployment lifecycle is plagued by manual overhead, creating bottlenecks and increasing the risk of human error.
+                    </p>
+<div class="space-y-4 mt-6">
+<div class="bullet-point">
+<div class="bullet-icon bg-red-500/20 text-red-400">
+<i class="fas fa-times text-xs"></i>
+</div>
+<p class="text-base"><strong>Manual Server Provisioning:</strong> Wasted time configuring environments and resolving dependency conflicts.</p>
+</div>
+<div class="bullet-point">
+<div class="bullet-icon bg-red-500/20 text-red-400">
+<i class="fas fa-times text-xs"></i>
+</div>
+<p class="text-base"><strong>Complex Routing Setup:</strong> Manual management of reverse proxies for individual applications.</p>
+</div>
+<div class="bullet-point">
+<div class="bullet-icon bg-red-500/20 text-red-400">
+<i class="fas fa-times text-xs"></i>
+</div>
+<p class="text-base"><strong>Lack of Visibility:</strong> Fragmented logs make debugging deployment failures difficult.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body>
+</html>

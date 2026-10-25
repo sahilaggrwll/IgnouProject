@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Project Report Cover</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; width: 1280px; height: 720px; overflow: hidden; }
+  .page { width: 1280px; height: 720px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; isolation: isolate; }
+  .page::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: #0f172a;
+    background-image:
+      radial-gradient(circle at 75% 20%, rgba(59,130,246,0.18), transparent 35%),
+      radial-gradient(circle at 20% 80%, rgba(99,102,241,0.15), transparent 35%),
+      linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px);
+    background-size: auto, auto, 40px 40px, 40px 40px;
+  }
+  .top-bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1d4ed8, #6366f1, #1d4ed8); }
+  .bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1d4ed8, #6366f1, #1d4ed8); }
+
+  .univ-header { text-align: center; margin-bottom: 28px; }
+  .univ-name { font-size: 15px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #93c5fd; margin-bottom: 4px; }
+  .school-name { font-size: 12px; color: #64748b; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .divider { width: 320px; height: 1px; background: linear-gradient(90deg, transparent, rgba(99,130,246,0.6), transparent); margin: 18px auto; }
+
+  .course-chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px; border: 1px solid rgba(59,130,246,0.4); border-radius: 999px; background: rgba(30,64,175,0.18); color: #93c5fd; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 22px; }
+
+  .project-title { text-align: center; margin-bottom: 10px; }
+  .title-main { font-size: 46px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: white; }
+  .title-accent { color: #60a5fa; }
+  .title-sub { font-size: 18px; font-weight: 300; color: #94a3b8; margin-top: 8px; letter-spacing: 0.04em; }
+
+  .divider2 { width: 80px; height: 3px; background: #2563eb; border-radius: 2px; margin: 20px auto; }
+
+  .meta-grid { display: flex; gap: 48px; justify-content: center; align-items: center; margin-top: 8px; }
+  .meta-block { text-align: center; }
+  .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #475569; margin-bottom: 5px; }
+  .meta-value { font-size: 15px; font-weight: 600; color: #e2e8f0; }
+  .meta-value-sm { font-size: 12px; font-weight: 500; color: #94a3b8; }
+  .meta-sep { width: 1px; height: 48px; background: rgba(71,85,105,0.5); }
+
+  .footer-note { position: absolute; bottom: 18px; font-size: 10px; color: #334155; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; }
+  .icon-ring { width: 72px; height: 72px; border-radius: 50%; border: 2px solid rgba(59,130,246,0.4); background: rgba(30,64,175,0.18); display: flex; align-items: center; justify-content: center; font-size: 28px; color: #60a5fa; margin: 0 auto 20px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="bottom-bar"></div>
+
+  <div class="univ-header">
+    <p class="univ-name">Indira Gandhi National Open University</p>
+    <p class="school-name">School of Computer &amp; Information Sciences (SOCIS)</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="course-chip"><i class="fas fa-bookmark"></i> MCSP-232 — MCA Project</div>
+
+  <div class="icon-ring"><i class="fas fa-cloud-upload-alt"></i></div>
+
+  <div class="project-title">
+    <h1 class="title-main">Automated Cloud<br><span class="title-accent">Deployment Engine</span></h1>
+    <p class="title-sub">(ACDE) — A Containerised Platform as a Service</p>
+  </div>
+
+  <div class="divider2"></div>
+
+  <div class="meta-grid">
+    <div class="meta-block">
+      <p class="meta-label">Submitted By</p>
+      <p class="meta-value">Sahil Aggarwal</p>
+      <p class="meta-value-sm">Enrolment No. 2500675011</p>
+    </div>
+    <div class="meta-sep"></div>
+    <div class="meta-block">
+      <p class="meta-label">Project Guide</p>
+      <p class="meta-value">Aishwariya Singh</p>
+      <p class="meta-value-sm">Senior Software Engineer, Headout</p>
+    </div>
+    <div class="meta-sep"></div>
+    <div class="meta-block">
+      <p class="meta-label">Submitted To</p>
+      <p class="meta-value">SOCIS, IGNOU</p>
+      <p class="meta-value-sm">New Delhi — 110068</p>
+    </div>
+  </div>
+
+  <p class="footer-note">Project Report submitted in partial fulfilment of the requirements for MCA (MCSP-232) &nbsp;|&nbsp; 2025–2026</p>
+</div>
+</body>
+</html>

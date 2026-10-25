@@ -1,0 +1,90 @@
+# ACDE — Kubernetes Network Policy
+# Slide 10 requirement: "Pod Isolation — Network policies prevent containers
+# from communicating with each other."
+#
+# Apply with:  kubectl apply -f network-policy.yaml
+# ---------------------------------------------------------------
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: acde-pod-isolation
+  namespace: acde
+  labels:
+    app.kubernetes.io/managed-by: acde
+    app.kubernetes.io/component: security
+spec:
+  # Target: every pod in the acde namespace
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+  ingress:
+    # Allow inbound traffic ONLY from Nginx proxy pods (labelled role=proxy)
+    # This enforces: "Apps are only accessible via the Nginx reverse proxy,
+    # not directly exposed." (Slide 10 — Network Level security)
+    - from:
+        - podSelector:
+            matchLabels:
+              role: proxy
+      ports:
+        - protocol: TCP
+          port: 3000   # Node.js apps
+        - protocol: TCP
+          port: 80     # Static (nginx:alpine) apps
+
+  egress:
+    # Allow DNS so containers can resolve hostnames
+    - ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # Allow outbound to the internet for npm install / app requests
+    # Restricted to HTTPS only (port 443)
+    - ports:
+        - protocol: TCP
+          port: 443
+    # Allow MongoDB access (within cluster or external via host network)
+    - ports:
+        - protocol: TCP
+          port: 27017
+
+---
+# Nginx proxy policy — allow it to reach app pods and receive external traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: acde-nginx-proxy
+  namespace: acde
+  labels:
+    app.kubernetes.io/managed-by: acde
+    app.kubernetes.io/component: proxy
+spec:
+  podSelector:
+    matchLabels:
+      role: proxy
+  policyTypes:
+    - Ingress
+    - Egress
+
+  ingress:
+    # Accept traffic from anywhere on port 8080 (configurable via PROXY_PORT)
+    - ports:
+        - protocol: TCP
+          port: 8080
+
+  egress:
+    # Forward to any app pod in the namespace
+    - to:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 3000
+        - protocol: TCP
+          port: 80
+    # DNS
+    - ports:
+        - protocol: UDP
+          port: 53

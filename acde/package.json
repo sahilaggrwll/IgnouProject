@@ -1,0 +1,12 @@
+{
+  "name": "acde",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automated Cloud Deployment Engine (IGNOU MCSP-232)",
+  "scripts": {
+    "backend": "npm --prefix backend start",
+    "frontend": "npm --prefix frontend run dev",
+    "test": "npm --prefix backend test",
+    "compose": "docker compose up --build"
+  }
+}

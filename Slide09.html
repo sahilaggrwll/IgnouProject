@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Database Design &amp; Schema</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Background Pattern */
+        .bg-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(30, 41, 59, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30, 41, 59, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+        
+        .bg-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background-color: rgba(59, 130, 246, 0.05);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: blur(100px);
+            z-index: 0;
+        }
+
+        /* Entity Card Styling */
+        .entity-card {
+            width: 320px;
+            background-color: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(71, 85, 105, 0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .entity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(148, 163, 184, 0.8);
+        }
+
+        .card-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .collection-name {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-body {
+            padding: 0;
+        }
+
+        .field-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .field-row:last-child {
+            border-bottom: none;
+        }
+
+        .field-name {
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .field-type {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .key-badge {
+            min-width: 24px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            padding: 0 5px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .pk-badge {
+            border: 1px solid rgba(245, 158, 11, 0.38);
+            background-color: rgba(120, 53, 15, 0.24);
+            color: #fcd34d;
+        }
+
+        .fk-badge {
+            border: 1px solid rgba(59, 130, 246, 0.38);
+            background-color: rgba(30, 64, 175, 0.24);
+            color: #93c5fd;
+        }
+
+        /* Specific Colors */
+        .header-users { background-color: rgba(6, 182, 212, 0.2); border-left: 4px solid #06b6d4; }
+        .text-users { color: #22d3ee; }
+        
+        .header-projects { background-color: rgba(249, 115, 22, 0.2); border-left: 4px solid #f97316; }
+        .text-projects { color: #fb923c; }
+        
+        .header-deployments { background-color: rgba(59, 130, 246, 0.2); border-left: 4px solid #3b82f6; }
+        .text-deployments { color: #60a5fa; }
+        
+        .header-logs { background-color: rgba(16, 185, 129, 0.2); border-left: 4px solid #10b981; }
+        .text-logs { color: #34d399; }
+
+        /* SVG Connectors */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .connection-path {
+            fill: none;
+            stroke: rgba(148, 163, 184, 0.4);
+            stroke-width: 2;
+            stroke-dasharray: 8 4;
+            animation: dash 30s linear infinite;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+
+        /* Marker definitions for SVG arrows */
+        .relationship-badge {
+            position: absolute;
+            background-color: #1e293b;
+            border: 1px solid #475569;
+            color: #94a3b8;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .diagram-chip {
+            border: 1px solid rgba(71, 85, 105, 0.55);
+            background-color: rgba(15, 23, 42, 0.82);
+            color: #cbd5e1;
+        }
+
+        .legend {
+            position: absolute;
+            right: 48px;
+            top: 40px;
+            width: 610px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: 8px;
+            z-index: 20;
+        }
+
+        .legend-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 10px;
+            border: 1px solid rgba(71, 85, 105, 0.55);
+            border-radius: 999px;
+            background-color: rgba(15, 23, 42, 0.82);
+            color: #cbd5e1;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+    
+        /* Shared Deck Background */
+        body,
+        .slide-container {
+            background: #0f172a !important;
+            background-image: none !important;
+        }
+
+        .slide-container {
+            isolation: isolate;
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%),
+                radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 30%),
+                linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px;
+            background-position: top right, bottom left, 0 0, 0 0;
+        }
+
+        .circle-decor-1,
+        .circle-decor-2,
+        .grid-line,
+        .grid-line-h,
+        .grid-line-v,
+        .bg-glow,
+        .grid-bg,
+        .bg-blob-1,
+        .bg-blob-2,
+        .bg-pattern,
+        .bg-grid,
+        .bg-dots,
+        .decoration-circle,
+        .bg-circle-1,
+        .bg-circle-2,
+        .grid-pattern,
+        .bg-blob,
+        .blob-1,
+        .blob-2,
+        .blob-3 {
+            display: none !important;
+        }
+</style>
+</head>
+<body style="">
+<div class="slide-container">
+<!-- Background -->
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<!-- Header -->
+<header class="relative z-20 px-12 pt-10 pb-4 flex justify-between items-end">
+<div>
+<p class="text-blue-400 font-bold tracking-widest text-xs uppercase mb-2">Data Models</p>
+<h1 class="text-4xl font-extrabold text-white tracking-tight">ER Diagram with Cardinality</h1>
+<div class="h-1 w-24 bg-blue-500 mt-4 rounded-full"></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="relative w-full h-full" style="transform: translate(-1.89598px, -145px);">
+<!-- SVG Connections Layer -->
+<svg class="connections">
+<defs>
+<marker id="arrowhead" markerHeight="7" markerWidth="10" orient="auto" refX="9" refY="3.5">
+<polygon fill="rgba(148, 163, 184, 0.6)" points="0 0, 10 3.5, 0 7"></polygon>
+</marker>
+<marker id="circle" markerHeight="8" markerWidth="8" orient="auto" refX="4" refY="4">
+<circle cx="4" cy="4" fill="rgba(148, 163, 184, 0.6)" r="3"></circle>
+</marker>
+</defs>
+<!-- Users to Projects (Top Row) -->
+<path class="connection-path" d="M 440 250 L 800 250" marker-end="url(#arrowhead)" marker-start="url(#circle)"></path>
+<!-- Projects to Deployments (Right Vertical) -->
+<path class="connection-path" d="M 960 360 L 960 460" marker-end="url(#arrowhead)" marker-start="url(#circle)"></path>
+<!-- Deployments to Logs (Bottom Row) -->
+<path class="connection-path" d="M 800 550 L 440 550" marker-end="url(#arrowhead)" marker-start="url(#circle)"></path>
+</svg>
+<!-- Relationship Badges -->
+<div class="relationship-badge" style="top: 240px; left: 600px;">1 OWNS N</div>
+<div class="relationship-badge" style="top: 400px; left: 960px; transform: translate(-50%, 0);">1 CREATES N</div>
+<div class="relationship-badge" style="top: 540px; left: 600px;">N PRODUCES 1</div>
+<!-- Card 1: Users (Top Left) -->
+<div class="entity-card" style="top: 140px; left: 120px;">
+<div class="card-header header-users">
+<div class="collection-name text-users">
+<i class="fas fa-users"></i> Users
+                    </div>
+<i class="fas fa-key text-gray-500 text-xs"></i>
+</div>
+<div class="card-body">
+<div class="field-row">
+<span class="field-name"><span class="key-badge pk-badge">PK</span> _id</span>
+<span class="field-type">ObjectId</span>
+</div>
+<div class="field-row">
+<span class="field-name">name</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">email</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">password_hash</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">created_at</span>
+<span class="field-type">Date</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Projects (Top Right) -->
+<div class="entity-card" style="top: 140px; left: 800px;">
+<div class="card-header header-projects">
+<div class="collection-name text-projects">
+<i class="fas fa-folder-open"></i> Projects
+                    </div>
+<i class="fas fa-code-branch text-gray-500 text-xs"></i>
+</div>
+<div class="card-body">
+<div class="field-row">
+<span class="field-name"><span class="key-badge pk-badge">PK</span> _id</span>
+<span class="field-type">ObjectId</span>
+</div>
+<div class="field-row">
+<span class="field-name"><span class="key-badge fk-badge">FK</span> user_id</span>
+<span class="field-type">ObjectId (Ref)</span>
+</div>
+<div class="field-row">
+<span class="field-name">project_name</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">git_repo_url</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">status</span>
+<span class="field-type">String</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Deployments (Bottom Right) -->
+<div class="entity-card" style="top: 460px; left: 800px;">
+<div class="card-header header-deployments">
+<div class="collection-name text-deployments">
+<i class="fas fa-rocket"></i> Deployments
+                    </div>
+<i class="fas fa-server text-gray-500 text-xs"></i>
+</div>
+<div class="card-body">
+<div class="field-row">
+<span class="field-name"><span class="key-badge pk-badge">PK</span> _id</span>
+<span class="field-type">ObjectId</span>
+</div>
+<div class="field-row">
+<span class="field-name"><span class="key-badge fk-badge">FK</span> project_id</span>
+<span class="field-type">ObjectId (Ref)</span>
+</div>
+<div class="field-row">
+<span class="field-name">container_id</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">subdomain</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">assigned_port</span>
+<span class="field-type">Number</span>
+</div>
+</div>
+</div>
+<!-- Card 4: Logs (Bottom Left) -->
+<div class="entity-card" style="top: 460px; left: 120px;">
+<div class="card-header header-logs">
+<div class="collection-name text-logs">
+<i class="fas fa-terminal"></i> Logs
+                    </div>
+<i class="fas fa-file-alt text-gray-500 text-xs"></i>
+</div>
+<div class="card-body">
+<div class="field-row">
+<span class="field-name"><span class="key-badge pk-badge">PK</span> _id</span>
+<span class="field-type">ObjectId</span>
+</div>
+<div class="field-row">
+<span class="field-name"><span class="key-badge fk-badge">FK</span> deployment_id</span>
+<span class="field-type">ObjectId (Ref)</span>
+</div>
+<div class="field-row">
+<span class="field-name">log_message</span>
+<span class="field-type">String</span>
+</div>
+<div class="field-row">
+<span class="field-name">timestamp</span>
+<span class="field-type">Date</span>
+</div>
+</div>
+</div>
+</main>
+<div class="legend">
+<span class="legend-chip"><span class="key-badge pk-badge">PK</span> Primary Key</span>
+<span class="legend-chip"><span class="key-badge fk-badge">FK</span> Foreign Key</span>
+</div>
+</div>
+
+</body></html>

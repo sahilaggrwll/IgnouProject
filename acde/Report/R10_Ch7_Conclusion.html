@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 7: Conclusion & Future Scope</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .achieve-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+  .achieve-card { padding:10px 12px; border-radius:10px; border:1px solid; display:flex; gap:10px; align-items:flex-start; }
+  .achieve-icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
+  .achieve-text { flex:1; }
+  .achieve-title { font-size:11px; font-weight:700; color:#e2e8f0; margin-bottom:2px; }
+  .achieve-desc { font-size:10px; color:#94a3b8; line-height:1.35; }
+  /* Future scope cards */
+  .scope-card { padding:10px 12px; border:1px solid rgba(71,85,105,0.45); border-radius:12px; background:rgba(30,41,59,0.55); margin-bottom:7px; display:flex; gap:10px; align-items:flex-start; }
+  .scope-card:last-child { margin-bottom:0; }
+  .scope-icon { font-size:16px; width:28px; text-align:center; flex-shrink:0; margin-top:1px; }
+  .scope-title { font-size:11px; font-weight:700; color:#e2e8f0; margin-bottom:2px; }
+  .scope-body { font-size:10px; color:#94a3b8; line-height:1.4; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 7</p>
+      <h1 class="chapter-title">Conclusion &amp; Future Scope</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-flag-checkered"></i> Final Chapter</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT -->
+    <div class="col">
+
+      <!-- 7.1 Conclusion -->
+      <div class="card card-accent-green">
+        <p class="section-h">7.1 Conclusion</p>
+        <p class="card-body" style="margin-bottom:10px;">
+          The <strong>Automated Cloud Deployment Engine (ACDE)</strong> successfully addresses all five
+          stated objectives and demonstrates a fully functional, secure, and observable PaaS pipeline
+          on a standard Ubuntu Linux machine. The system reduces a traditionally multi-hour manual
+          deployment process to a single API call, completing it in under two minutes for most
+          Node.js and static web projects.
+        </p>
+        <p class="card-body" style="margin-bottom:10px;">
+          All major deliverables — clone pipeline, Docker build automation, dynamic Nginx reverse-proxy,
+          Kubernetes deployment with resource limits, real-time SSE log streaming, JWT-secured REST API,
+          and a React dashboard — were implemented, integrated, and tested.
+        </p>
+        <p class="card-body">
+          The project confirms that enterprise-grade deployment automation concepts (containerisation,
+          orchestration, dynamic routing, defence-in-depth security) are achievable with
+          <strong>open-source tools at zero cost</strong>, making ACDE a viable foundation for a
+          production PaaS targeting student developers and small teams.
+        </p>
+      </div>
+
+      <!-- 7.1 Achievements grid -->
+      <div class="card card-accent-blue">
+        <p class="section-h">Key Accomplishments</p>
+        <div class="achieve-grid">
+          <div class="achieve-card" style="border-color:rgba(52,211,153,0.35); background:rgba(6,95,70,0.15);">
+            <div class="achieve-icon" style="background:rgba(52,211,153,0.2); color:#34d399;"><i class="fas fa-shield-alt"></i></div>
+            <div class="achieve-text">
+              <p class="achieve-title">Secure Automation</p>
+              <p class="achieve-desc">JWT + bcrypt auth; input sanitisation; no shell injection vectors in subprocess calls.</p>
+            </div>
+          </div>
+          <div class="achieve-card" style="border-color:rgba(59,130,246,0.35); background:rgba(30,64,175,0.15);">
+            <div class="achieve-icon" style="background:rgba(59,130,246,0.2); color:#60a5fa;"><i class="fas fa-cubes"></i></div>
+            <div class="achieve-text">
+              <p class="achieve-title">Container Isolation</p>
+              <p class="achieve-desc">Linux namespace isolation; no privileged mode; NetworkPolicy for K8s pod segregation.</p>
+            </div>
+          </div>
+          <div class="achieve-card" style="border-color:rgba(139,92,246,0.35); background:rgba(76,29,149,0.15);">
+            <div class="achieve-icon" style="background:rgba(139,92,246,0.2); color:#a78bfa;"><i class="fas fa-dharmachakra"></i></div>
+            <div class="achieve-text">
+              <p class="achieve-title">K8s Scalability</p>
+              <p class="achieve-desc">Resource limits, readiness probes, and kubectl apply / docker run dual-mode deployment.</p>
+            </div>
+          </div>
+          <div class="achieve-card" style="border-color:rgba(245,158,11,0.35); background:rgba(120,53,15,0.15);">
+            <div class="achieve-icon" style="background:rgba(245,158,11,0.2); color:#f59e0b;"><i class="fas fa-random"></i></div>
+            <div class="achieve-text">
+              <p class="achieve-title">Dynamic Routing</p>
+              <p class="achieve-desc">Auto-written Nginx conf.d snippets; OS-level port probe prevents bind collisions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+
+      <!-- 7.2 Limitations -->
+      <div class="card card-accent-orange">
+        <p class="section-h">7.2 Limitations</p>
+        <ul class="blist">
+          <li><strong>Single-machine only:</strong> Current deployment runs on one Ubuntu host; no horizontal scaling or distributed worker nodes.</li>
+          <li><strong>Public repositories only:</strong> Git cloning requires a public HTTPS URL; private repos via OAuth or SSH key are not yet supported.</li>
+          <li><strong>No database provisioning:</strong> Applications requiring their own PostgreSQL or MySQL instance must set that up externally.</li>
+          <li><strong>Static tunnel URLs:</strong> localtunnel public URLs are ephemeral and reset on backend restart; not suitable for permanent production use.</li>
+          <li><strong>Manual Nginx reload:</strong> Nginx conf.d writes are automated but actual <code>nginx -s reload</code> requires the host command to be configured in <code>NGINX_RELOAD_CMD</code>.</li>
+          <li><strong>No CI/CD webhooks:</strong> Re-deployments must be triggered manually via the dashboard; no automatic rebuild on git push.</li>
+        </ul>
+      </div>
+
+      <!-- 7.3 Future Scope -->
+      <div class="card card-accent-purple">
+        <p class="section-h">7.3 Future Scope &amp; Enhancements (v2.0)</p>
+
+        <div class="scope-card">
+          <span class="scope-icon" style="color:#60a5fa;">⚡</span>
+          <div>
+            <p class="scope-title">True CI/CD Integration</p>
+            <p class="scope-body">GitHub/GitLab webhook listeners to automatically trigger build-and-deploy pipelines on every <code>git push</code> to the configured branch.</p>
+          </div>
+        </div>
+        <div class="scope-card">
+          <span class="scope-icon" style="color:#34d399;">🗄️</span>
+          <div>
+            <p class="scope-title">Auto-Provisioned Databases</p>
+            <p class="scope-body">Spin up dedicated PostgreSQL or MongoDB containers attached to the app network with auto-injected connection strings via environment variables.</p>
+          </div>
+        </div>
+        <div class="scope-card">
+          <span class="scope-icon" style="color:#f59e0b;">🔑</span>
+          <div>
+            <p class="scope-title">Private Repository Authentication</p>
+            <p class="scope-body">OAuth 2.0 (GitHub / GitLab) and SSH key management to clone private repositories and organisations.</p>
+          </div>
+        </div>
+        <div class="scope-card">
+          <span class="scope-icon" style="color:#a78bfa;">📊</span>
+          <div>
+            <p class="scope-title">Prometheus &amp; Grafana Monitoring</p>
+            <p class="scope-body">Real-time CPU, memory, and request-latency metrics per container, visualised directly in the user dashboard.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 7 — Page 7</span>
+  </div>
+</div>
+</body>
+</html>

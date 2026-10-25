@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+workspace/
+workspace-test/
+nginx/conf.d/*.conf
+!nginx/conf.d/.gitkeep
+nginx/conf.d-test/

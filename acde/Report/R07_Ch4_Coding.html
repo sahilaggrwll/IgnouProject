@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 4: Coding & Implementation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 4</p>
+      <h1 class="chapter-title">Coding &amp; Implementation</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-code"></i> Source Code Highlights</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT -->
+    <div class="col">
+      <!-- 4.1 Technology Stack -->
+      <div class="card card-accent-blue">
+        <p class="section-h">4.1 Platform &amp; Technology Chosen</p>
+        <div class="tbl-shell">
+          <table class="tbl">
+            <thead><tr><th>Layer</th><th>Technology</th><th>Justification</th></tr></thead>
+            <tbody>
+              <tr><td>Runtime</td><td>Node.js 18 LTS</td><td>Non-blocking I/O; native child_process for Docker CLI; NPM ecosystem</td></tr>
+              <tr><td>Framework</td><td>Express 4</td><td>Minimal, flexible REST API; SSE support via <code>res.write()</code></td></tr>
+              <tr><td>Database</td><td>MongoDB 6 + Mongoose</td><td>Schema-flexible JSON docs; fast queries on deployment logs</td></tr>
+              <tr><td>Containers</td><td>Docker Engine</td><td>Isolated environments; no host dependency conflicts; cross-stack support</td></tr>
+              <tr><td>Orchestration</td><td>Kubernetes (minikube)</td><td>Resource limits; readiness probes; production-grade auto-restart</td></tr>
+              <tr><td>Reverse Proxy</td><td>Nginx</td><td>High-performance; conf.d hot-reload without restart; subdomain routing</td></tr>
+              <tr><td>Auth</td><td>JWT + bcryptjs</td><td>Stateless; no session store needed; bcrypt prevents rainbow attacks</td></tr>
+              <tr><td>Frontend</td><td>React + Vite</td><td>Fast HMR dev; SSE EventSource for live log terminal</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4.2 DB Implementation snippet -->
+      <div class="card card-accent-green">
+        <p class="section-h">4.2 Database Implementation — Mongoose Schema Snippet</p>
+        <div class="code-block">
+<span class="cm">// models/Deployment.js</span>
+<span class="kw">const</span> deploymentSchema = <span class="kw">new</span> <span class="fn">Schema</span>({
+  project_id: { type: <span class="fn">Schema.Types.ObjectId</span>, ref: <span class="str">'Project'</span>, required: <span class="kw">true</span> },
+  subdomain:  { type: String, required: <span class="kw">true</span> },
+  assigned_port: { type: Number },
+  container_id:  { type: String },
+  status: { type: String, <span class="kw">enum</span>: [<span class="str">'pending','building','deployed','stopped','failed'</span>] },
+  live_url: { type: String },
+  image_tag: { type: String },
+  mode: { type: String, <span class="kw">enum</span>: [<span class="str">'docker','k8s'</span>] },
+}, { timestamps: <span class="kw">true</span> });
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+      <!-- 4.3 Critical Code: orchestrator pipeline -->
+      <div class="card card-accent-purple">
+        <p class="section-h">4.3 Critical Code — Deployment Pipeline (<code>orchestrator.js</code>)</p>
+        <div class="code-block" style="font-size:9.5px;">
+<span class="kw">async function</span> <span class="fn">runDeploymentPipeline</span>({ project, deployment }) {
+  <span class="kw">const</span> log = (msg) =&gt; <span class="fn">appendLog</span>(deployment._id, msg);
+
+  <span class="cm">// Step 1 — Clone</span>
+  <span class="kw">const</span> repoDir = <span class="fn">path.join</span>(config.workspaceDir, String(project._id), <span class="str">'src'</span>);
+  <span class="kw">await</span> <span class="fn">cloneRepo</span>(project.git_repo_url, repoDir, log);
+
+  <span class="cm">// Step 2 — Detect stack &amp; generate Dockerfile if absent</span>
+  <span class="kw">const</span> stack = <span class="fn">detectStack</span>(repoDir);
+  <span class="fn">ensureDockerfile</span>(repoDir, stack);
+
+  <span class="cm">// Step 3 — Build image</span>
+  <span class="kw">const</span> image = <span class="fn">imageTag</span>(project._id);
+  <span class="kw">await</span> <span class="fn">buildImage</span>(repoDir, image, log);
+
+  <span class="cm">// Step 4 — Deploy (Docker or K8s)</span>
+  <span class="kw">const</span> deployer = config.deployMode === <span class="str">'k8s'</span> ? deployK8s : deployDocker;
+  <span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">deployer</span>({ project, deployment, image, log });
+
+  <span class="cm">// Step 5 — Proxy route + public tunnel</span>
+  <span class="kw">await</span> <span class="fn">upsertRoute</span>(deployment.subdomain, deployment.assigned_port);
+  <span class="kw">const</span> tunnelUrl = <span class="kw">await</span> <span class="fn">openTunnel</span>(deployment.subdomain, deployment.assigned_port);
+  deployment.live_url = tunnelUrl || <span class="fn">liveUrl</span>(deployment.subdomain, deployment.assigned_port);
+  deployment.status = <span class="str">'deployed'</span>;
+  <span class="kw">await</span> deployment.<span class="fn">save</span>();
+}
+        </div>
+      </div>
+
+      <!-- 4.3 port allocator -->
+      <div class="card card-accent-orange">
+        <p class="section-h">4.3 Critical Code — OS-Level Port Probe (<code>ports.js</code>)</p>
+        <div class="code-block" style="font-size:9.5px;">
+<span class="cm">// Probes OS TCP stack to guarantee the port is genuinely free</span>
+<span class="kw">function</span> <span class="fn">isPortFree</span>(port) {
+  <span class="kw">return new</span> Promise(resolve =&gt; {
+    <span class="kw">const</span> srv = net.<span class="fn">createServer</span>();
+    srv.<span class="fn">once</span>(<span class="str">'error'</span>, () =&gt; <span class="fn">resolve</span>(<span class="kw">false</span>));  <span class="cm">// EADDRINUSE</span>
+    srv.<span class="fn">once</span>(<span class="str">'listening'</span>, () =&gt; srv.<span class="fn">close</span>(() =&gt; <span class="fn">resolve</span>(<span class="kw">true</span>)));
+    srv.<span class="fn">listen</span>(port, <span class="str">'0.0.0.0'</span>);
+  });
+}
+<span class="cm">// allocatePort() calls isPortFree() and skips busy ports</span>
+        </div>
+        <p style="font-size:9px; color:#475569; margin-top:6px;">This fix was applied after a Docker bind error where port 31000 was held by a previous container not recorded in MongoDB. The OS probe catches such orphaned bindings.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 4 — Page 4</span>
+  </div>
+</div>
+</body>
+</html>

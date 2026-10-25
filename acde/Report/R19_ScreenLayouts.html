@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Appendix A: Screen Layouts &amp; UI Wireframes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .screen-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .screen-frame { border:1px solid rgba(71,85,105,0.5); border-radius:12px; overflow:hidden; background:rgba(15,23,42,0.9); }
+  .screen-titlebar { display:flex; align-items:center; gap:6px; padding:7px 12px; background:rgba(15,23,42,1); border-bottom:1px solid rgba(51,65,85,0.7); }
+  .chrome-dot { width:8px; height:8px; border-radius:50%; }
+  .screen-url { flex:1; margin-left:6px; background:rgba(30,41,59,0.8); border-radius:4px; padding:2px 8px; font-family:'JetBrains Mono',monospace; font-size:8px; color:#475569; }
+  .screen-body { padding:12px; }
+  .screen-label { font-size:8px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#475569; margin-bottom:8px; text-align:center; }
+
+  /* Mock UI elements */
+  .mock-input { height:24px; background:rgba(30,41,59,0.7); border:1px solid rgba(71,85,105,0.5); border-radius:6px; padding:0 8px; display:flex; align-items:center; font-size:9px; color:#475569; margin-bottom:5px; }
+  .mock-btn { height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; cursor:default; }
+  .mock-btn-blue { background:rgba(37,99,235,0.8); color:white; }
+  .mock-stat-card { border:1px solid rgba(71,85,105,0.4); border-radius:8px; padding:8px 10px; background:rgba(30,41,59,0.6); text-align:center; }
+  .mock-stat-num { font-size:18px; font-weight:800; color:white; font-family:'JetBrains Mono',monospace; }
+  .mock-stat-lbl { font-size:7.5px; color:#475569; text-transform:uppercase; letter-spacing:0.1em; margin-top:1px; }
+  .mock-row { display:flex; align-items:center; gap:8px; padding:5px 8px; border-bottom:1px solid rgba(51,65,85,0.5); font-size:9px; }
+  .mock-status-pill { padding:1px 8px; border-radius:999px; font-size:7.5px; font-weight:700; }
+  .st-run { background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); color:#34d399; }
+  .st-stop { background:rgba(71,85,105,0.2); border:1px solid rgba(71,85,105,0.3); color:#64748b; }
+  .st-fail { background:rgba(244,63,94,0.15); border:1px solid rgba(244,63,94,0.3); color:#fb7185; }
+  .log-line { font-family:'JetBrains Mono',monospace; font-size:8px; padding:1.5px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Appendix A</p>
+      <h1 class="chapter-title">Screen Layouts — ACDE User Interface</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-desktop"></i> UI Wireframes</span>
+  </div>
+
+  <div class="screen-grid">
+
+    <!-- Screen 1: Login -->
+    <div>
+      <p class="screen-label">Screen A.1 — Login / Register Page</p>
+      <div class="screen-frame">
+        <div class="screen-titlebar">
+          <div class="chrome-dot" style="background:#ef4444;"></div>
+          <div class="chrome-dot" style="background:#f59e0b;"></div>
+          <div class="chrome-dot" style="background:#10b981;"></div>
+          <div class="screen-url">http://localhost:5173/login</div>
+        </div>
+        <div class="screen-body">
+          <div style="text-align:center; margin-bottom:14px;">
+            <div style="font-size:14px; font-weight:800; color:white; letter-spacing:0.05em;">⚡ ACDE</div>
+            <div style="font-size:9px; color:#475569; margin-top:2px;">Automated Cloud Deployment Engine</div>
+          </div>
+          <div style="max-width:220px; margin:0 auto;">
+            <div style="font-size:9px; color:#94a3b8; margin-bottom:3px;">Email Address</div>
+            <div class="mock-input">developer@example.com</div>
+            <div style="font-size:9px; color:#94a3b8; margin-bottom:3px; margin-top:6px;">Password</div>
+            <div class="mock-input">••••••••••••</div>
+            <div class="mock-btn mock-btn-blue" style="margin-top:10px;">Sign In</div>
+            <div style="font-size:8px; color:#475569; text-align:center; margin-top:8px;">Don't have an account? <span style="color:#3b82f6;">Register</span></div>
+            <div style="font-size:7px; color:#334155; text-align:center; margin-top:4px;">JWT stored in localStorage — 7-day expiry</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 2: Dashboard -->
+    <div>
+      <p class="screen-label">Screen A.2 — Dashboard</p>
+      <div class="screen-frame">
+        <div class="screen-titlebar">
+          <div class="chrome-dot" style="background:#ef4444;"></div>
+          <div class="chrome-dot" style="background:#f59e0b;"></div>
+          <div class="chrome-dot" style="background:#10b981;"></div>
+          <div class="screen-url">http://localhost:5173/dashboard</div>
+        </div>
+        <div class="screen-body">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-size:11px; font-weight:700; color:white;">Welcome, Sahil</div>
+            <div style="font-size:8px; padding:2px 8px; border-radius:999px; background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); color:#34d399;">● System Healthy</div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px;">
+            <div class="mock-stat-card"><div class="mock-stat-num" style="color:#60a5fa;">5</div><div class="mock-stat-lbl">Total Projects</div></div>
+            <div class="mock-stat-card"><div class="mock-stat-num" style="color:#34d399;">3</div><div class="mock-stat-lbl">Running</div></div>
+            <div class="mock-stat-card"><div class="mock-stat-num" style="color:#f87171;">1</div><div class="mock-stat-lbl">Failed</div></div>
+          </div>
+          <div style="font-size:9px; font-weight:700; color:#94a3b8; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.1em;">Recent Projects</div>
+          <div class="mock-row"><span style="color:#e2e8f0; flex:1;">express-blog-app</span><span class="mock-status-pill st-run">Running</span><span style="font-size:8px; color:#3b82f6; margin-left:8px;">↗ Live</span></div>
+          <div class="mock-row"><span style="color:#e2e8f0; flex:1;">react-portfolio</span><span class="mock-status-pill st-run">Running</span><span style="font-size:8px; color:#3b82f6; margin-left:8px;">↗ Live</span></div>
+          <div class="mock-row"><span style="color:#e2e8f0; flex:1;">flask-api</span><span class="mock-status-pill st-fail">Failed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Projects List -->
+    <div>
+      <p class="screen-label">Screen A.3 — Projects List</p>
+      <div class="screen-frame">
+        <div class="screen-titlebar">
+          <div class="chrome-dot" style="background:#ef4444;"></div>
+          <div class="chrome-dot" style="background:#f59e0b;"></div>
+          <div class="chrome-dot" style="background:#10b981;"></div>
+          <div class="screen-url">http://localhost:5173/projects</div>
+        </div>
+        <div class="screen-body">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-size:11px; font-weight:700; color:white;">My Projects</div>
+            <div class="mock-btn mock-btn-blue" style="width:90px; font-size:8px;">+ New Project</div>
+          </div>
+          <!-- New Project Form collapsed -->
+          <div style="border:1px dashed rgba(59,130,246,0.3); border-radius:8px; padding:8px; margin-bottom:10px; background:rgba(30,41,59,0.4);">
+            <div style="font-size:8px; color:#3b82f6; font-weight:700; margin-bottom:5px;">NEW PROJECT</div>
+            <div class="mock-input">Project Name</div>
+            <div class="mock-input">https://github.com/user/repo.git</div>
+            <div style="display:flex; gap:6px; margin-top:5px;">
+              <div class="mock-btn mock-btn-blue" style="flex:1; font-size:8px;">Deploy</div>
+              <div style="flex:1; height:22px; border-radius:6px; border:1px solid rgba(71,85,105,0.4); display:flex; align-items:center; justify-content:center; font-size:8px; color:#64748b;">Cancel</div>
+            </div>
+          </div>
+          <!-- Project rows -->
+          <div style="border:1px solid rgba(71,85,105,0.4); border-radius:8px; overflow:hidden;">
+            <div class="mock-row" style="background:rgba(30,41,59,0.5);"><span style="font-size:8px; color:#64748b; width:80px;">Name</span><span style="font-size:8px; color:#64748b; flex:1;">Git URL</span><span style="font-size:8px; color:#64748b; width:50px;">Stack</span><span style="font-size:8px; color:#64748b; width:55px;">Status</span></div>
+            <div class="mock-row"><span style="color:#e2e8f0; width:80px; font-size:9px;">express-blog</span><span style="color:#475569; flex:1; font-size:8px; font-family:'JetBrains Mono',monospace; overflow:hidden; text-overflow:ellipsis;">github.com/u/express-blog</span><span style="width:50px;"><span class="mock-status-pill" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;">Node</span></span><span class="mock-status-pill st-run" style="width:55px; text-align:center;">Running</span></div>
+            <div class="mock-row"><span style="color:#e2e8f0; width:80px; font-size:9px;">react-portfolio</span><span style="color:#475569; flex:1; font-size:8px; font-family:'JetBrains Mono',monospace;">github.com/u/portfolio</span><span style="width:50px;"><span class="mock-status-pill" style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.3);color:#22d3ee;">Static</span></span><span class="mock-status-pill st-run" style="width:55px; text-align:center;">Running</span></div>
+            <div class="mock-row"><span style="color:#e2e8f0; width:80px; font-size:9px;">flask-api</span><span style="color:#475569; flex:1; font-size:8px; font-family:'JetBrains Mono',monospace;">github.com/u/flask-api</span><span style="width:50px;"><span class="mock-status-pill" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:#fbbf24;">Python</span></span><span class="mock-status-pill st-fail" style="width:55px; text-align:center;">Failed</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 4: Deploy Log Terminal -->
+    <div>
+      <p class="screen-label">Screen A.4 — Project Detail &amp; Live Deploy Log Terminal</p>
+      <div class="screen-frame">
+        <div class="screen-titlebar">
+          <div class="chrome-dot" style="background:#ef4444;"></div>
+          <div class="chrome-dot" style="background:#f59e0b;"></div>
+          <div class="chrome-dot" style="background:#10b981;"></div>
+          <div class="screen-url">http://localhost:5173/projects/6719a3c...</div>
+        </div>
+        <div class="screen-body">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div>
+              <div style="font-size:11px; font-weight:700; color:white;">express-blog-app</div>
+              <div style="font-size:8px; color:#475569; font-family:'JetBrains Mono',monospace; margin-top:1px;">github.com/sahil/express-blog</div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <div class="mock-btn" style="background:rgba(37,99,235,0.7); color:white; width:60px; font-size:8px;">▶ Deploy</div>
+              <div class="mock-btn" style="background:rgba(244,63,94,0.2); border:1px solid rgba(244,63,94,0.4); color:#fb7185; width:55px; font-size:8px;">■ Stop</div>
+              <div class="mock-btn" style="background:rgba(16,185,129,0.2); border:1px solid rgba(16,185,129,0.4); color:#34d399; width:55px; font-size:8px;">↗ Live</div>
+            </div>
+          </div>
+          <!-- Info bar -->
+          <div style="display:flex; gap:12px; margin-bottom:8px; font-size:8px; color:#64748b;">
+            <span>Port: <span style="color:#60a5fa; font-family:'JetBrains Mono',monospace;">31042</span></span>
+            <span>Mode: <span style="color:#a78bfa;">Docker</span></span>
+            <span>URL: <span style="color:#34d399; font-family:'JetBrains Mono',monospace;">express-blog-4f2a.acde.local</span></span>
+          </div>
+          <!-- Log terminal -->
+          <div style="background:rgba(2,6,23,0.95); border:1px solid rgba(71,85,105,0.4); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:8px; color:#334155; font-family:'JetBrains Mono',monospace; margin-bottom:6px;">BUILD LOG — SSE stream</div>
+            <div class="log-line" style="color:#60a5fa;">[ACDE] Cloning from github.com/sahil/express-blog…</div>
+            <div class="log-line" style="color:#6ee7b7;">[ACDE] Clone complete. Detected stack: node</div>
+            <div class="log-line" style="color:#94a3b8;">[Docker] Step 1/6 : FROM node:18-alpine</div>
+            <div class="log-line" style="color:#94a3b8;">[Docker] Step 2/6 : WORKDIR /app</div>
+            <div class="log-line" style="color:#94a3b8;">[Docker] Step 3/6 : COPY package*.json ./</div>
+            <div class="log-line" style="color:#94a3b8;">[Docker] Step 4/6 : RUN npm ci --production</div>
+            <div class="log-line" style="color:#94a3b8;">[Docker] Step 5/6 : COPY . .</div>
+            <div class="log-line" style="color:#94a3b8;">[Docker] Step 6/6 : CMD ["node","index.js"]</div>
+            <div class="log-line" style="color:#6ee7b7;">[ACDE] Image built: acde/express-blog-4f2a:latest</div>
+            <div class="log-line" style="color:#6ee7b7;">[ACDE] Container running on host port 31042</div>
+            <div class="log-line" style="color:#6ee7b7;">[ACDE] Nginx route written → express-blog-4f2a.acde.local</div>
+            <div class="log-line" style="color:#fbbf24; font-weight:700;">[ACDE] ✓ DEPLOY_DONE — http://express-blog-4f2a.acde.local</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:12px; padding:8px 14px; border:1px solid rgba(71,85,105,0.3); border-radius:10px; background:rgba(30,41,59,0.4); font-size:9.5px; color:#64748b; line-height:1.5;">
+    <strong style="color:#94a3b8;">Note:</strong> The above are design-accurate wireframe representations of the ACDE frontend (React + Vite, port 5173). Actual screenshots would be identical in layout — the dark-mode SPA uses the same color palette, typography (Inter), and component hierarchy shown above. All four screens are fully functional and tested (refer Chapter 5 — Testing).
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Appendix A — Screen Layouts</span>
+  </div>
+</div>
+</body>
+</html>

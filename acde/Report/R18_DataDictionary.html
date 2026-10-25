@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 3: Data Dictionary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .tbl td code { font-family:'JetBrains Mono',monospace; font-size:9px; background:rgba(30,41,59,0.6); padding:1px 5px; border-radius:4px; color:#a5b4fc; }
+  .tbl td .type { font-family:'JetBrains Mono',monospace; color:#f59e0b; font-size:9.5px; }
+  .collection-header { font-size:11px; font-weight:800; color:#e2e8f0; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .coll-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .constraint-pill { display:inline-flex; padding:1px 7px; border-radius:999px; font-size:8px; font-weight:700; }
+  .con-pk { background:rgba(251,191,36,0.15); border:1px solid rgba(251,191,36,0.35); color:#fbbf24; }
+  .con-fk { background:rgba(96,165,250,0.15); border:1px solid rgba(96,165,250,0.35); color:#60a5fa; }
+  .con-uq { background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.35); color:#34d399; }
+  .con-req { background:rgba(244,63,94,0.15); border:1px solid rgba(244,63,94,0.35); color:#fb7185; }
+  .con-idx { background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.35); color:#a78bfa; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 3 — Supplement</p>
+      <h1 class="chapter-title">Data Dictionary — MongoDB Collections</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-database"></i> Schema &amp; Constraints</span>
+  </div>
+
+  <!-- USERS Collection -->
+  <div class="card card-accent-cyan" style="margin-bottom:14px;">
+    <div class="collection-header">
+      <div class="coll-dot" style="background:#06b6d4;"></div>
+      Collection: <span style="font-family:'JetBrains Mono',monospace; color:#22d3ee;">users</span>
+      <span style="font-size:9px; color:#475569; margin-left:auto;">MongoDB Document Store | Mongoose Model: User</span>
+    </div>
+    <div class="tbl-shell">
+      <table class="tbl">
+        <thead>
+          <tr><th>Field Name</th><th>Data Type</th><th>Size / Format</th><th>Default</th><th>Constraints</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>_id</code></td><td><span class="type">ObjectId</span></td><td>12 bytes</td><td>Auto-generated</td><td><span class="constraint-pill con-pk">PK</span></td><td>Primary key — MongoDB auto-assigned BSON ObjectId</td></tr>
+          <tr><td><code>name</code></td><td><span class="type">String</span></td><td>max 120 chars</td><td>—</td><td><span class="constraint-pill con-req">Required</span></td><td>Full name of the registered user</td></tr>
+          <tr><td><code>email</code></td><td><span class="type">String</span></td><td>RFC 5321 format</td><td>—</td><td><span class="constraint-pill con-req">Required</span> <span class="constraint-pill con-uq">Unique</span> <span class="constraint-pill con-idx">Indexed</span></td><td>Login identifier. Mongoose unique index prevents duplicate accounts</td></tr>
+          <tr><td><code>password_hash</code></td><td><span class="type">String</span></td><td>60 chars (bcrypt)</td><td>—</td><td><span class="constraint-pill con-req">Required</span></td><td>bcrypt hash (saltRounds=10) of plaintext password. Never stored in clear text</td></tr>
+          <tr><td><code>created_at</code></td><td><span class="type">Date</span></td><td>ISO 8601</td><td>Date.now</td><td>—</td><td>Account creation timestamp. Set once on document creation</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PROJECTS Collection -->
+  <div class="card card-accent-orange" style="margin-bottom:14px;">
+    <div class="collection-header">
+      <div class="coll-dot" style="background:#f59e0b;"></div>
+      Collection: <span style="font-family:'JetBrains Mono',monospace; color:#fbbf24;">projects</span>
+      <span style="font-size:9px; color:#475569; margin-left:auto;">Mongoose Model: Project | FK references: users._id</span>
+    </div>
+    <div class="tbl-shell">
+      <table class="tbl">
+        <thead>
+          <tr><th>Field Name</th><th>Data Type</th><th>Size / Format</th><th>Default</th><th>Constraints</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>_id</code></td><td><span class="type">ObjectId</span></td><td>12 bytes</td><td>Auto-generated</td><td><span class="constraint-pill con-pk">PK</span></td><td>Primary key</td></tr>
+          <tr><td><code>user_id</code></td><td><span class="type">ObjectId</span></td><td>12 bytes</td><td>—</td><td><span class="constraint-pill con-fk">FK→users</span> <span class="constraint-pill con-req">Required</span> <span class="constraint-pill con-idx">Indexed</span></td><td>Owner's user ObjectId. Used in ownership middleware check</td></tr>
+          <tr><td><code>project_name</code></td><td><span class="type">String</span></td><td>max 80 chars</td><td>—</td><td><span class="constraint-pill con-req">Required</span></td><td>Human-readable project label; sanitised to slug for subdomain</td></tr>
+          <tr><td><code>git_repo_url</code></td><td><span class="type">String</span></td><td>max 512 chars</td><td>—</td><td><span class="constraint-pill con-req">Required</span></td><td>GitHub/GitLab HTTPS or SSH URL; validated by regex in validators.js</td></tr>
+          <tr><td><code>tech_stack</code></td><td><span class="type">String</span></td><td>Enum</td><td>"auto"</td><td>—</td><td>Detected stack: node | static | python | dockerfile | auto</td></tr>
+          <tr><td><code>status</code></td><td><span class="type">String</span></td><td>Enum</td><td>"idle"</td><td>—</td><td>Project lifecycle state: idle | deploying | running | failed | stopped</td></tr>
+          <tr><td><code>updated_at</code></td><td><span class="type">Date</span></td><td>ISO 8601</td><td>Date.now</td><td>—</td><td>Updated via pre('save') Mongoose hook on every document change</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DEPLOYMENTS Collection -->
+  <div class="card card-accent-blue" style="margin-bottom:14px;">
+    <div class="collection-header">
+      <div class="coll-dot" style="background:#3b82f6;"></div>
+      Collection: <span style="font-family:'JetBrains Mono',monospace; color:#60a5fa;">deployments</span>
+      <span style="font-size:9px; color:#475569; margin-left:auto;">Mongoose Model: Deployment | FK references: projects._id</span>
+    </div>
+    <div class="tbl-shell">
+      <table class="tbl">
+        <thead>
+          <tr><th>Field Name</th><th>Data Type</th><th>Size / Format</th><th>Default</th><th>Constraints</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>_id</code></td><td><span class="type">ObjectId</span></td><td>12 bytes</td><td>Auto-generated</td><td><span class="constraint-pill con-pk">PK</span></td><td>Primary key</td></tr>
+          <tr><td><code>project_id</code></td><td><span class="type">ObjectId</span></td><td>12 bytes</td><td>—</td><td><span class="constraint-pill con-fk">FK→projects</span> <span class="constraint-pill con-req">Required</span> <span class="constraint-pill con-idx">Indexed</span></td><td>Parent project reference</td></tr>
+          <tr><td><code>subdomain</code></td><td><span class="type">String</span></td><td>max 63 chars</td><td>—</td><td><span class="constraint-pill con-uq">Unique</span></td><td>Nginx subdomain slug, e.g. <code>my-app-1a2b</code>; derived from project name + random suffix</td></tr>
+          <tr><td><code>assigned_port</code></td><td><span class="type">Number</span></td><td>Integer 31000–31999</td><td>—</td><td><span class="constraint-pill con-req">Required</span></td><td>Host-side port mapped to container port 3000/8000; OS-probed for availability</td></tr>
+          <tr><td><code>container_id</code></td><td><span class="type">String</span></td><td>64 hex chars</td><td>null</td><td>—</td><td>Docker container ID (short or full SHA256) used in docker stop/rm commands</td></tr>
+          <tr><td><code>image_tag</code></td><td><span class="type">String</span></td><td>max 128 chars</td><td>—</td><td>—</td><td>Docker image tag built for this deployment, e.g. <code>acde/my-app-1a2b:latest</code></td></tr>
+          <tr><td><code>mode</code></td><td><span class="type">String</span></td><td>Enum</td><td>"docker"</td><td>—</td><td>Deployment backend: docker | kubernetes</td></tr>
+          <tr><td><code>status</code></td><td><span class="type">String</span></td><td>Enum</td><td>"building"</td><td>—</td><td>Deployment state: building | running | failed | stopped</td></tr>
+          <tr><td><code>live_url</code></td><td><span class="type">String</span></td><td>max 256 chars</td><td>null</td><td>—</td><td>Full Nginx-proxied URL, e.g. <code>http://my-app-1a2b.acde.local</code></td></tr>
+          <tr><td><code>created_at</code></td><td><span class="type">Date</span></td><td>ISO 8601</td><td>Date.now</td><td>—</td><td>Deployment creation time</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- LOGS Collection -->
+  <div class="card card-accent-green">
+    <div class="collection-header">
+      <div class="coll-dot" style="background:#10b981;"></div>
+      Collection: <span style="font-family:'JetBrains Mono',monospace; color:#34d399;">logs</span>
+      <span style="font-size:9px; color:#475569; margin-left:auto;">Mongoose Model: Log | FK references: deployments._id | TTL Index: 7 days</span>
+    </div>
+    <div class="tbl-shell">
+      <table class="tbl">
+        <thead>
+          <tr><th>Field Name</th><th>Data Type</th><th>Size / Format</th><th>Default</th><th>Constraints</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>_id</code></td><td><span class="type">ObjectId</span></td><td>12 bytes</td><td>Auto-generated</td><td><span class="constraint-pill con-pk">PK</span></td><td>Primary key</td></tr>
+          <tr><td><code>deployment_id</code></td><td><span class="type">ObjectId</span></td><td>12 bytes</td><td>—</td><td><span class="constraint-pill con-fk">FK→deployments</span> <span class="constraint-pill con-req">Required</span> <span class="constraint-pill con-idx">Indexed</span></td><td>Parent deployment. Used to query all logs for a given build run</td></tr>
+          <tr><td><code>log_message</code></td><td><span class="type">String</span></td><td>max 4096 chars</td><td>—</td><td><span class="constraint-pill con-req">Required</span></td><td>Single line of build or runtime output captured from Docker stdout/stderr</td></tr>
+          <tr><td><code>timestamp</code></td><td><span class="type">Date</span></td><td>ISO 8601 ms</td><td>Date.now</td><td><span class="constraint-pill con-idx">TTL Index</span></td><td>Millisecond-precision log timestamp. TTL index auto-expires logs after 7 days</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 3 Supplement — Data Dictionary</span>
+  </div>
+</div>
+</body>
+</html>

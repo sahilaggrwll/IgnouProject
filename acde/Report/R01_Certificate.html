@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Certificate from Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; width: 1280px; height: 720px; overflow: hidden; }
+  .page { width: 1280px; height: 720px; display: flex; flex-direction: column; position: relative; isolation: isolate; padding: 52px 96px; }
+  .page::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; background: #0f172a;
+    background-image: radial-gradient(circle at 80% 10%, rgba(59,130,246,0.12), transparent 30%), radial-gradient(circle at 10% 90%, rgba(99,102,241,0.1), transparent 30%), linear-gradient(rgba(148,163,184,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.04) 1px, transparent 1px);
+    background-size: auto, auto, 40px 40px, 40px 40px;
+  }
+  .top-bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1d4ed8, #6366f1, #1d4ed8); }
+
+  .page-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border: 1px solid rgba(59,130,246,0.35); border-radius: 999px; background: rgba(30,64,175,0.16); color: #93c5fd; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 20px; }
+  h1 { font-size: 32px; font-weight: 800; color: white; margin-bottom: 6px; }
+  .h1-rule { width: 64px; height: 3px; background: #2563eb; border-radius: 2px; margin-bottom: 28px; }
+
+  .cert-box { border: 1px solid rgba(71,85,105,0.5); border-radius: 18px; background: rgba(15,23,42,0.8); backdrop-filter: blur(12px); padding: 32px 40px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+
+  .cert-body { font-size: 14px; line-height: 1.85; color: #cbd5e1; }
+  .cert-body strong { color: #e2e8f0; }
+  .cert-body .highlight { color: #60a5fa; font-weight: 600; }
+
+  .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px; }
+  .sig-block { padding: 18px 20px; border: 1px solid rgba(71,85,105,0.45); border-radius: 14px; background: rgba(30,41,59,0.6); }
+  .sig-line { height: 48px; border-bottom: 1px dashed rgba(71,85,105,0.6); margin-bottom: 10px; }
+  .sig-name { font-size: 13px; font-weight: 700; color: #e2e8f0; }
+  .sig-role { font-size: 11px; color: #64748b; margin-top: 2px; }
+  .sig-place { font-size: 10px; color: #475569; margin-top: 6px; letter-spacing: 0.05em; }
+
+  .date-row { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+  .date-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #475569; }
+  .date-val { font-size: 12px; color: #94a3b8; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-tag"><i class="fas fa-certificate"></i> Preliminary — ii</div>
+  <h1>Certificate from Project Guide</h1>
+  <div class="h1-rule"></div>
+
+  <div class="cert-box">
+    <div class="cert-body">
+      <p>This is to certify that the project entitled</p>
+      <br>
+      <p style="text-align:center; font-size:18px; font-weight:700; color:white; letter-spacing:0.01em;">
+        "Automated Cloud Deployment Engine (ACDE) — A Containerised Platform as a Service"
+      </p>
+      <br>
+      <p>
+        submitted by <strong>Mr. Sahil Aggarwal</strong> (Enrolment No. <span class="highlight">2500675011</span>),
+        in partial fulfilment of the requirements for the award of the degree of
+        <strong>Master of Computer Applications (MCA)</strong>, course code <span class="highlight">MCSP-232</span>,
+        to the <strong>School of Computer &amp; Information Sciences (SOCIS), IGNOU, New Delhi</strong>,
+        is a <em>bonafide record of original work</em> carried out under my guidance and supervision.
+      </p>
+      <br>
+      <p>
+        To the best of my knowledge, this work has not been submitted to any other university or institution
+        for the award of any degree or diploma. The project is technically sound, meets the prescribed
+        objectives, and represents the student's own effort and understanding.
+      </p>
+    </div>
+
+    <div>
+      <div class="sig-grid">
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <p class="sig-name">Aishwariya Singh</p>
+          <p class="sig-role">Project Guide &nbsp;|&nbsp; Senior Software Engineer</p>
+          <p class="sig-place">Headout Inc., Bangalore, Karnataka</p>
+          <div class="date-row">
+            <span class="date-label">Date:</span>
+            <span class="date-val">____________________</span>
+          </div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-line"></div>
+          <p class="sig-name">Sahil Aggarwal</p>
+          <p class="sig-role">Student &nbsp;|&nbsp; Enrolment No. 2500675011</p>
+          <p class="sig-place">MCA (New) — SOCIS, IGNOU, New Delhi</p>
+          <div class="date-row">
+            <span class="date-label">Date:</span>
+            <span class="date-val">____________________</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

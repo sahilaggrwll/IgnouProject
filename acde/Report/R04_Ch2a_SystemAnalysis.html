@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 2: System Analysis (Part A)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 2 — Part A</p>
+      <h1 class="chapter-title">System Analysis: Existing &amp; Proposed System</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-search"></i> System Analysis</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT: Existing + Proposed -->
+    <div class="col">
+      <div class="card card-accent-red">
+        <p class="section-h">2.1 Existing System — Manual Deployment</p>
+        <p class="card-body" style="margin-bottom:8px;">The traditional software deployment workflow is a series of manual, error-prone steps performed by a developer directly on a server:</p>
+        <ul class="blist">
+          <li>SSH into the server; manually install runtime (Node.js, Python, etc.) and all dependencies.</li>
+          <li>Clone the repository and configure environment variables by hand.</li>
+          <li>Start the process using <code>pm2</code>, <code>nohup</code>, or a system service — no containerisation.</li>
+          <li>Manually edit Nginx config, add a <code>server</code> block, test and reload — per application.</li>
+          <li>No unified log interface; logs scattered across <code>journald</code>, app files, or Nginx access logs.</li>
+          <li><strong>Result:</strong> High manual effort, "works on my machine" failures, poor visibility.</li>
+        </ul>
+      </div>
+
+      <div class="card card-accent-green">
+        <p class="section-h">2.2 Proposed System — ACDE PaaS</p>
+        <p class="card-body" style="margin-bottom:8px;">ACDE replaces all manual steps with a single API call. The proposed system:</p>
+        <ul class="blist">
+          <li><strong>Clone:</strong> Accepts a Git URL or local path; clones via <code>simple-git</code> or <code>cp -a</code>.</li>
+          <li><strong>Detect &amp; Build:</strong> Detects stack (Node/static/Dockerfile); generates Dockerfile if absent; runs <code>docker build</code>.</li>
+          <li><strong>Deploy:</strong> Runs <code>docker run</code> with a free host port (OS-probed) or <code>kubectl apply</code> for K8s.</li>
+          <li><strong>Route:</strong> Writes an Nginx <code>conf.d</code> snippet; optionally reloads Nginx.</li>
+          <li><strong>Stream:</strong> All build logs streamed real-time to the dashboard via SSE (Server-Sent Events).</li>
+          <li><strong>Stop:</strong> One-click stop removes the container and the Nginx route atomically.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT: SRS -->
+    <div class="col">
+      <div class="card card-accent-blue">
+        <p class="section-h">2.4 Software Requirements Specification (SRS)</p>
+        <p class="card-label" style="margin-bottom:6px;">Functional Requirements</p>
+        <ul class="blist" style="margin-bottom:10px;">
+          <li>User registration and login with JWT-based stateless authentication.</li>
+          <li>Project creation accepting a Git URL or local path with format validation.</li>
+          <li>One-click deploy triggering the full clone → build → run pipeline asynchronously.</li>
+          <li>Real-time build log streaming to the dashboard (SSE).</li>
+          <li>Project stop: terminates container, removes Nginx route, updates status in DB.</li>
+          <li>Dashboard: deployment counts, system health (Docker + Mongo status), recent projects.</li>
+        </ul>
+        <p class="card-label" style="margin-bottom:6px;">Non-Functional Requirements</p>
+        <ul class="blist">
+          <li><strong>Security:</strong> bcrypt password hashing; JWT with 7-day expiry; input sanitisation on all endpoints.</li>
+          <li><strong>Reliability:</strong> K8s deployment falls back to Docker on kubectl failure; port allocator probes OS availability.</li>
+          <li><strong>Performance:</strong> SSE log streaming; no polling; fire-and-forget pipeline (202 Accepted).</li>
+          <li><strong>Scalability:</strong> Port range configurable (default 31000–31999); K8s resource limits enforced.</li>
+        </ul>
+      </div>
+
+      <div class="card card-accent-purple">
+        <p class="section-h">2.4 Hardware &amp; Software Constraints</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <p class="card-label">Minimum Hardware</p>
+            <ul class="blist">
+              <li>CPU: Intel Core i5 / Ryzen 5</li>
+              <li>RAM: 16 GB (Docker + K8s)</li>
+              <li>Storage: 50 GB SSD free</li>
+              <li>Network: Internet for Git clone</li>
+            </ul>
+          </div>
+          <div>
+            <p class="card-label">Software Dependencies</p>
+            <ul class="blist">
+              <li>Ubuntu Linux 20.04+</li>
+              <li>Node.js 18+ (runtime)</li>
+              <li>Docker Engine 24+</li>
+              <li>MongoDB 6+ (local/Docker)</li>
+              <li>Nginx (optional, for subdomain)</li>
+              <li>minikube + kubectl (K8s mode)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 2 — Page 2a</span>
+  </div>
+</div>
+</body>
+</html>

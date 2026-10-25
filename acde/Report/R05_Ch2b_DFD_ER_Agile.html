@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 2: System Analysis (Part B) — DFD, ER, Agile, Gantt</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  /* DFD flow */
+  .dfd-flow { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .dfd-node { padding:5px 12px; border-radius:8px; font-size:10px; font-weight:700; text-align:center; }
+  .dfd-ext { background:rgba(99,102,241,0.2); border:1px solid rgba(99,102,241,0.4); color:#a5b4fc; }
+  .dfd-proc { background:rgba(37,99,235,0.2); border:1px solid rgba(37,99,235,0.4); color:#93c5fd; }
+  .dfd-store { background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.35); color:#6ee7b7; border-radius:4px; }
+  .dfd-arrow { color:#475569; font-size:14px; }
+
+  /* ER mini */
+  .er-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .er-entity { border:1px solid rgba(71,85,105,0.5); border-radius:10px; overflow:hidden; }
+  .er-head { padding:5px 8px; font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  .er-field { padding:3px 8px; font-size:9px; color:#94a3b8; border-top:1px solid rgba(71,85,105,0.3); font-family:'JetBrains Mono',monospace; }
+  .er-pk { color:#fbbf24; }
+  .er-fk { color:#60a5fa; }
+
+  /* Gantt mini */
+  .gantt-bar-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+  .gantt-label { font-size:9px; color:#94a3b8; width:120px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .gantt-track { flex:1; height:12px; background:rgba(15,23,42,0.6); border-radius:6px; position:relative; border:1px solid rgba(71,85,105,0.3); }
+  .gantt-fill { height:100%; border-radius:6px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 2 — Part B</p>
+      <h1 class="chapter-title">DFD, ER Diagram, Agile Paradigm &amp; Gantt</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-project-diagram"></i> Models &amp; Planning</span>
+  </div>
+
+  <div class="two-col" style="margin-top:4px;">
+
+    <!-- LEFT -->
+    <div class="col">
+      <!-- 2.6 DFD -->
+      <div class="card card-accent-blue">
+        <p class="section-h">2.6 Data Flow Diagram (DFD)</p>
+        <p class="card-label" style="margin-bottom:6px;">Level 0 — Context Diagram</p>
+        <div class="dfd-flow">
+          <div class="dfd-ext">Developer</div>
+          <span class="dfd-arrow">→</span>
+          <div class="dfd-proc">ACDE System</div>
+          <span class="dfd-arrow">→</span>
+          <div class="dfd-ext">Git Provider</div>
+        </div>
+        <div class="dfd-flow">
+          <div class="dfd-proc" style="flex:1; text-align:center;">ACDE System</div>
+          <span class="dfd-arrow">↔</span>
+          <div class="dfd-store">MongoDB</div>
+          <span class="dfd-arrow">&nbsp;&nbsp;</span>
+          <div class="dfd-proc" style="font-size:9px;">Returns: Live URL + Logs</div>
+        </div>
+        <p class="card-label" style="margin-top:8px; margin-bottom:6px;">Level 1 — Core Processes</p>
+        <ul class="blist">
+          <li><strong>P1 — Auth &amp; Dashboard:</strong> Register/Login → JWT; aggregate project counts.</li>
+          <li><strong>P2 — Project Manager:</strong> CRUD projects; validate Git URL; trigger deploy.</li>
+          <li><strong>P3 — Orchestration Engine:</strong> Clone → Detect stack → Build image → Run container.</li>
+          <li><strong>P4 — Proxy Manager:</strong> Allocate port; write Nginx conf.d; reload; return live URL.</li>
+        </ul>
+      </div>
+
+      <!-- 2.5 SE Paradigm -->
+      <div class="card card-accent-purple">
+        <p class="section-h">2.5 Software Engineering Paradigm — Agile</p>
+        <p class="card-body" style="margin-bottom:8px;">ACDE followed an <strong>Agile Iterative-Incremental</strong> model — five one-month sprints, each delivering a validated, testable increment:</p>
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:6px;">
+          <div style="text-align:center; padding:6px 4px; border:1px solid rgba(71,85,105,0.4); border-radius:8px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:8px; color:#60a5fa; font-weight:700; text-transform:uppercase;">Sprint 1</p>
+            <p style="font-size:9px; color:#cbd5e1; margin-top:3px;">Requirements &amp; DB Schema</p>
+          </div>
+          <div style="text-align:center; padding:6px 4px; border:1px solid rgba(71,85,105,0.4); border-radius:8px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:8px; color:#34d399; font-weight:700; text-transform:uppercase;">Sprint 2</p>
+            <p style="font-size:9px; color:#cbd5e1; margin-top:3px;">Architecture &amp; Design</p>
+          </div>
+          <div style="text-align:center; padding:6px 4px; border:1px solid rgba(71,85,105,0.4); border-radius:8px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:8px; color:#f59e0b; font-weight:700; text-transform:uppercase;">Sprint 3</p>
+            <p style="font-size:9px; color:#cbd5e1; margin-top:3px;">Backend &amp; Docker Build</p>
+          </div>
+          <div style="text-align:center; padding:6px 4px; border:1px solid rgba(71,85,105,0.4); border-radius:8px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:8px; color:#f87171; font-weight:700; text-transform:uppercase;">Sprint 4</p>
+            <p style="font-size:9px; color:#cbd5e1; margin-top:3px;">K8s &amp; Nginx Routing</p>
+          </div>
+          <div style="text-align:center; padding:6px 4px; border:1px solid rgba(71,85,105,0.4); border-radius:8px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:8px; color:#a78bfa; font-weight:700; text-transform:uppercase;">Sprint 5</p>
+            <p style="font-size:9px; color:#cbd5e1; margin-top:3px;">Testing &amp; Docs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+      <!-- ER Diagram -->
+      <div class="card card-accent-green">
+        <p class="section-h">2.6 Entity-Relationship Diagram</p>
+        <div class="er-grid">
+          <div class="er-entity">
+            <div class="er-head" style="background:rgba(6,182,212,0.2); color:#22d3ee;">Users</div>
+            <div class="er-field"><span class="er-pk">PK</span> _id: ObjectId</div>
+            <div class="er-field">name: String</div>
+            <div class="er-field">email: String</div>
+            <div class="er-field">password_hash: String</div>
+            <div class="er-field">created_at: Date</div>
+          </div>
+          <div class="er-entity">
+            <div class="er-head" style="background:rgba(249,115,22,0.2); color:#fb923c;">Projects</div>
+            <div class="er-field"><span class="er-pk">PK</span> _id: ObjectId</div>
+            <div class="er-field"><span class="er-fk">FK</span> user_id: Ref</div>
+            <div class="er-field">project_name: String</div>
+            <div class="er-field">git_repo_url: String</div>
+            <div class="er-field">status: String</div>
+          </div>
+          <div class="er-entity">
+            <div class="er-head" style="background:rgba(59,130,246,0.2); color:#60a5fa;">Deployments</div>
+            <div class="er-field"><span class="er-pk">PK</span> _id: ObjectId</div>
+            <div class="er-field"><span class="er-fk">FK</span> project_id: Ref</div>
+            <div class="er-field">container_id: String</div>
+            <div class="er-field">subdomain: String</div>
+            <div class="er-field">assigned_port: Number</div>
+          </div>
+          <div class="er-entity">
+            <div class="er-head" style="background:rgba(16,185,129,0.2); color:#34d399;">Logs</div>
+            <div class="er-field"><span class="er-pk">PK</span> _id: ObjectId</div>
+            <div class="er-field"><span class="er-fk">FK</span> deployment_id: Ref</div>
+            <div class="er-field">log_message: String</div>
+            <div class="er-field">timestamp: Date</div>
+          </div>
+        </div>
+        <p style="font-size:9px; color:#475569; margin-top:8px;">Cardinality: User 1→N Projects &nbsp;|&nbsp; Project 1→N Deployments &nbsp;|&nbsp; Deployment 1→N Logs</p>
+      </div>
+
+      <!-- Gantt -->
+      <div class="card card-accent-orange">
+        <p class="section-h">2.3 Project Schedule — Gantt Chart (5-Month Plan)</p>
+        <div style="margin-top:4px;">
+          <div style="display:grid; grid-template-columns:120px repeat(5,1fr); gap:2px; margin-bottom:4px;">
+            <span></span>
+            <span style="font-size:8px; color:#475569; text-align:center;">M1</span>
+            <span style="font-size:8px; color:#475569; text-align:center;">M2</span>
+            <span style="font-size:8px; color:#475569; text-align:center;">M3</span>
+            <span style="font-size:8px; color:#475569; text-align:center;">M4</span>
+            <span style="font-size:8px; color:#475569; text-align:center;">M5</span>
+          </div>
+          <!-- Rows -->
+          <div style="display:grid; grid-template-columns:120px repeat(5,1fr); gap:2px; margin-bottom:3px; align-items:center;">
+            <span style="font-size:9px; color:#94a3b8;">Requirement Analysis</span>
+            <div style="height:12px; border-radius:6px; background:rgba(37,99,235,0.5); border:1px solid rgba(37,99,235,0.6);"></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:120px repeat(5,1fr); gap:2px; margin-bottom:3px; align-items:center;">
+            <span style="font-size:9px; color:#94a3b8;">System Design &amp; DB</span>
+            <div style="height:12px; border-radius:6px; background:rgba(6,182,212,0.4); border:1px solid rgba(6,182,212,0.5);"></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:120px repeat(5,1fr); gap:2px; margin-bottom:3px; align-items:center;">
+            <span style="font-size:9px; color:#94a3b8;">Backend &amp; API Dev</span>
+            <div></div>
+            <div style="height:12px; border-radius:6px; background:rgba(16,185,129,0.4); border:1px solid rgba(16,185,129,0.5);"></div>
+            <div></div><div></div><div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:120px repeat(5,1fr); gap:2px; margin-bottom:3px; align-items:center;">
+            <span style="font-size:9px; color:#94a3b8;">Docker &amp; K8s / Nginx</span>
+            <div></div><div></div>
+            <div style="height:12px; border-radius:6px; background:rgba(139,92,246,0.4); border:1px solid rgba(139,92,246,0.5);"></div>
+            <div></div><div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:120px repeat(5,1fr); gap:2px; margin-bottom:3px; align-items:center;">
+            <span style="font-size:9px; color:#94a3b8;">Integration Testing</span>
+            <div></div><div></div><div></div>
+            <div style="height:12px; border-radius:6px; background:rgba(245,158,11,0.4); border:1px solid rgba(245,158,11,0.5);"></div>
+            <div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:120px repeat(5,1fr); gap:2px; align-items:center;">
+            <span style="font-size:9px; color:#94a3b8;">Documentation</span>
+            <div></div><div></div><div></div><div></div>
+            <div style="height:12px; border-radius:6px; background:rgba(244,63,94,0.4); border:1px solid rgba(244,63,94,0.5);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 2 — Page 2b</span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Testing Plan and Sample Test Cases</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+        body { margin: 0; padding: 0; overflow: hidden; font-family: 'Inter', sans-serif; background-color: #0f172a; }
+        .slide-container { width: 1280px; height: 720px; position: relative; display: flex; flex-direction: column; overflow: hidden; color: white; background-color: #0f172a; isolation: isolate; }
+        .slide-main { flex: 1; display: grid; grid-template-columns: 296px 1fr; gap: 16px; }
+        .panel { display: flex; flex-direction: column; gap: 10px; padding: 16px; border: 1px solid rgba(71, 85, 105, 0.56); border-radius: 18px; background-color: rgba(15, 23, 42, 0.8); box-shadow: 0 18px 50px rgba(2, 6, 23, 0.26); backdrop-filter: blur(12px); }
+        .section-label { margin: 0 0 4px; color: #e2e8f0; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+        .section-title { margin: 0; color: white; font-size: 17px; line-height: 1.3; font-weight: 700; }
+        .overview-card { padding: 12px; border: 1px solid rgba(71, 85, 105, 0.46); border-radius: 16px; background-color: rgba(30, 41, 59, 0.7); }
+        .overview-copy { margin: 6px 0 0; color: #cbd5e1; font-size: 12px; line-height: 1.35; }
+        .qa-stack { display: flex; flex-direction: column; gap: 8px; }
+        .qa-card { display: flex; gap: 10px; padding: 8px 10px; border: 1px solid rgba(71, 85, 105, 0.46); border-radius: 14px; background-color: rgba(30, 41, 59, 0.66); }
+        .qa-icon { width: 32px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 14px; }
+        .icon-blue { color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); background-color: rgba(30, 64, 175, 0.18); }
+        .icon-cyan { color: #67e8f9; border: 1px solid rgba(34, 211, 238, 0.28); background-color: rgba(8, 145, 178, 0.18); }
+        .icon-emerald { color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.28); background-color: rgba(6, 95, 70, 0.18); }
+        .qa-title { margin: 0 0 3px; color: white; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+        .qa-copy { margin: 0; color: #cbd5e1; font-size: 10px; line-height: 1.3; }
+        .criteria-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .criteria-item { padding: 8px; border: 1px solid rgba(34, 211, 238, 0.24); border-radius: 14px; background-color: rgba(8, 47, 73, 0.32); }
+        .criteria-title { margin: 0 0 4px; color: #67e8f9; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+        .criteria-copy { margin: 0; color: #dbeafe; font-size: 10px; line-height: 1.25; }
+        .panel-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .panel-copy { margin: 0; max-width: 205px; color: #cbd5e1; font-size: 11px; line-height: 1.3; }
+        .table-shell { border: 1px solid rgba(71, 85, 105, 0.46); border-radius: 16px; overflow: hidden; background-color: rgba(15, 23, 42, 0.72); }
+        .case-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .case-table th { padding: 8px 8px; border-bottom: 1px solid rgba(71, 85, 105, 0.5); background-color: rgba(30, 41, 59, 0.92); color: #cbd5e1; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-align: left; }
+        .case-table td { padding: 7px 8px; border-bottom: 1px solid rgba(51, 65, 85, 0.72); color: #e2e8f0; font-size: 10px; line-height: 1.3; vertical-align: top; }
+        .case-table tr:last-child td { border-bottom: none; }
+        .case-table tbody tr:nth-child(odd) td { background-color: rgba(15, 23, 42, 0.82); }
+        .case-table tbody tr:nth-child(even) td { background-color: rgba(30, 41, 59, 0.48); }
+        .tc-id { color: #93c5fd; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+        .level-pill { display: inline-flex; align-items: center; justify-content: center; padding: 4px 9px; border-radius: 999px; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+        .pill-unit { border: 1px solid rgba(59, 130, 246, 0.3); background-color: rgba(30, 64, 175, 0.18); color: #bfdbfe; }
+        .pill-integration { border: 1px solid rgba(34, 211, 238, 0.28); background-color: rgba(8, 145, 178, 0.18); color: #cffafe; }
+        .pill-system { border: 1px solid rgba(52, 211, 153, 0.28); background-color: rgba(6, 95, 70, 0.18); color: #d1fae5; }
+        .pill-security { border: 1px solid rgba(251, 113, 133, 0.28); background-color: rgba(159, 18, 57, 0.18); color: #ffe4e6; }
+        .text-muted { color: #94a3b8; }
+
+        /* Shared Deck Background */
+        body, .slide-container { background: #0f172a !important; background-image: none !important; }
+        .slide-container { isolation: isolate; }
+        .slide-container::before {
+            content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: #0f172a;
+            background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%), radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 30%), linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px; background-position: top right, bottom left, 0 0, 0 0;
+        }
+</style>
+</head>
+<body>
+<div class="slide-container">
+    <header class="relative z-20 px-12 pt-10 pb-6 flex justify-between items-end">
+        <div>
+            <p class="text-blue-400 font-bold tracking-widest text-xs uppercase mb-2">Quality Assurance</p>
+            <h1 class="text-4xl font-extrabold text-white tracking-tight">Testing Plan and Sample Test Cases</h1>
+            <div class="h-1 w-24 bg-blue-500 mt-4 rounded-full"></div>
+        </div>
+        <div class="px-4 py-2 border border-gray-500/30 rounded-full bg-slate-800/80 text-gray-300 text-xs font-bold tracking-widest uppercase">
+            Mandatory Test Plan Included
+        </div>
+    </header>
+
+    <main class="slide-main relative z-10 px-12 pb-12">
+        <section class="panel">
+            <div class="overview-card">
+                <p class="section-label text-muted">Approach</p>
+                <h2 class="section-title">Multi-Level Verification</h2>
+                <p class="overview-copy">ACDE is verified through validation checks, integration flow tests, and deployment security review before submission.</p>
+            </div>
+
+            <div class="qa-stack">
+                <div class="qa-card">
+                    <div class="qa-icon icon-blue"><i class="fas fa-cube"></i></div>
+                    <div>
+                        <h3 class="qa-title">Unit and input checks</h3>
+                        <p class="qa-copy">Validate login handling, Git URL format, and request sanitization.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-icon icon-cyan"><i class="fas fa-plug"></i></div>
+                    <div>
+                        <h3 class="qa-title">Integration flow</h3>
+                        <p class="qa-copy">Confirm cloning, image creation, status updates, and MongoDB writes.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-icon icon-emerald"><i class="fas fa-shield-alt"></i></div>
+                    <div>
+                        <h3 class="qa-title">System and security</h3>
+                        <p class="qa-copy">Verify live routing, failure logging, and ownership controls.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="criteria-strip">
+                <div class="criteria-item"><p class="criteria-title">Pass</p><p class="criteria-copy">Expected status and records are produced.</p></div>
+                <div class="criteria-item"><p class="criteria-title">Fail</p><p class="criteria-copy">Errors are logged and status is marked failed.</p></div>
+                <div class="criteria-item"><p class="criteria-title">Exit</p><p class="criteria-copy">All cases pass before final submission.</p></div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <p class="section-label text-muted">Sample Cases</p>
+                    <h2 class="section-title">Representative Test Case Matrix</h2>
+                </div>
+                <p class="panel-copy">Five concise cases cover success flow, rejection handling, failure logging, and access control.</p>
+            </div>
+
+            <div class="table-shell">
+                <table class="case-table">
+                    <thead>
+                        <tr><th style="width: 11%;">ID</th><th style="width: 14%;">Level</th><th style="width: 18%;">Scenario</th><th style="width: 27%;">Test Input / Steps</th><th style="width: 30%;">Expected Result</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="tc-id">TC-01</span></td><td><span class="level-pill pill-unit">Unit</span></td><td>Valid login</td><td>Submit correct email and password to the login API.</td><td>JWT is returned and the user session is accepted.</td></tr>
+                        <tr><td><span class="tc-id">TC-02</span></td><td><span class="level-pill pill-unit">Unit</span></td><td>Invalid repository input</td><td>Send a malformed Git URL in the deployment request payload.</td><td>Validation fails and no deployment record is created.</td></tr>
+                        <tr><td><span class="tc-id">TC-03</span></td><td><span class="level-pill pill-integration">Integration</span></td><td>Successful build pipeline</td><td>Provide a valid repository and trigger deployment from the dashboard.</td><td>Repository is cloned, image is built, and status moves to success.</td></tr>
+                        <tr><td><span class="tc-id">TC-04</span></td><td><span class="level-pill pill-system">System</span></td><td>Failed deployment logging</td><td>Deploy a repository with a forced dependency error.</td><td>Failure is recorded in Logs and the deployment is marked failed.</td></tr>
+                        <tr><td><span class="tc-id">TC-05</span></td><td><span class="level-pill pill-security">Security</span></td><td>Unauthorized project access</td><td>Log in as another user and request a project you do not own.</td><td>Access is denied with an authorization error and no data is exposed.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

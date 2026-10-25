@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Technical Architecture & Stack</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+        }
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            background-color: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Background Pattern */
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        /* Sidebar Styling */
+        .sidebar-card {
+            background-color: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+        
+        .sidebar-card:hover {
+            background-color: rgba(51, 65, 85, 0.8);
+            border-color: rgba(96, 165, 250, 0.5);
+            transform: translateX(5px);
+        }
+
+        .sidebar-stack {
+            display: grid;
+            grid-template-rows: repeat(6, minmax(0, 1fr));
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .sidebar-stack .sidebar-card {
+            height: 100%;
+            margin-bottom: 0;
+        }
+
+        .icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        /* Flow Diagram Container (Now Centered via Flexbox) */
+        .flow-container {
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 0;
+        }
+
+        /* Wrapper to keep the absolute positions relative to the center */
+        .diagram-wrapper {
+            position: relative;
+            width: 650px; 
+            height: 360px; 
+        }
+
+        .flow-step {
+            background-color: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            width: 130px; 
+            text-align: center;
+            position: absolute;
+            z-index: 2;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-3px);
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 8px 12px -3px rgba(0, 0, 0, 0.5);
+        }
+
+        .flow-icon-lg {
+            font-size: 24px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .flow-arrow {
+            position: absolute;
+            height: 2px;
+            background-color: rgba(148, 163, 184, 0.4);
+            z-index: 1;
+        }
+        
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid rgba(148, 163, 184, 0.4);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+
+        /* Specific Positions (Now anchored to the wrapper) */
+        .step-git { top: 20px; left: 40px; }
+        .step-node { top: 20px; left: 260px; }
+        .step-docker { top: 20px; left: 480px; }
+        .step-k8s { top: 250px; left: 480px; }
+        .step-nginx { top: 250px; left: 260px; }
+        .step-live { top: 250px; left: 40px; }
+        .step-db { top: 135px; left: 260px; }
+
+        /* Connection Lines */
+        .line-1 { top: 55px; left: 170px; width: 90px; }
+        .line-2 { top: 55px; left: 390px; width: 90px; }
+        .line-3-v { 
+            position: absolute; top: 90px; left: 545px; width: 2px; height: 160px; 
+            background-color: rgba(148, 163, 184, 0.4); z-index: 1;
+        }
+        .line-3-v::after {
+            content: ''; position: absolute; bottom: 0; left: -4px; 
+            border-top: 8px solid rgba(148, 163, 184, 0.4); 
+            border-left: 5px solid transparent; border-right: 5px solid transparent; 
+            transform: none;
+            border-bottom: none;
+        }
+        
+        .line-4 { top: 285px; left: 390px; width: 90px; transform: rotate(180deg); }
+        .line-5 { top: 285px; left: 170px; width: 90px; transform: rotate(180deg); }
+        
+        .line-db { 
+            position: absolute; top: 90px; left: 325px; width: 2px; height: 45px; 
+            background-color: rgba(99, 102, 241, 0.3); z-index: 0; border-style: dashed;
+        }
+
+        /* Label Pills */
+        .label-pill {
+            position: absolute;
+            font-size: 9px;
+            background-color: #1e293b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            z-index: 3;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            min-height: 32px;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            color: #e5e7eb;
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.25;
+            border-left-width: 4px;
+        }
+
+    
+        /* Shared Deck Background */
+        body,
+        .slide-container {
+            background: #0f172a !important;
+            background-image: none !important;
+        }
+
+        .slide-container {
+            isolation: isolate;
+        }
+
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 24%),
+                radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.14), transparent 30%),
+                linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+            background-size: auto, auto, 40px 40px, 40px 40px;
+            background-position: top right, bottom left, 0 0, 0 0;
+        }
+
+        .circle-decor-1,
+        .circle-decor-2,
+        .grid-line,
+        .grid-line-h,
+        .grid-line-v,
+        .bg-glow,
+        .grid-bg,
+        .bg-blob-1,
+        .bg-blob-2,
+        .bg-pattern,
+        .bg-grid,
+        .bg-dots,
+        .decoration-circle,
+        .bg-circle-1,
+        .bg-circle-2,
+        .grid-pattern,
+        .bg-blob,
+        .blob-1,
+        .blob-2,
+        .blob-3 {
+            display: none !important;
+        }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<div class="bg-pattern"></div>
+
+<header class="relative z-10 px-12 pt-8 pb-4 flex justify-between items-end">
+    <div>
+        <p class="text-blue-400 font-bold tracking-widest text-xs uppercase mb-2">System Design</p>
+        <h1 class="text-4xl font-extrabold text-white tracking-tight">Technical Architecture & Stack</h1>
+    </div>
+</header>
+
+<main class="flex-1 flex flex-col px-12 relative z-10 pb-6 gap-4">
+    
+    <div class="flex gap-8 flex-1 min-h-0">
+        <div class="w-1/3 flex flex-col justify-start min-h-0">
+            <h3 class="section-heading border-blue-500">Core Stack</h3>
+            <div class="sidebar-stack">
+                <div class="sidebar-card">
+                    <div class="icon-box bg-orange-900 bg-opacity-40 text-orange-500">
+                        <i class="fab fa-ubuntu"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm text-gray-200">Host OS</p>
+                        <p class="text-xs text-gray-400">Ubuntu Linux 20.04+</p>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="icon-box bg-green-900 bg-opacity-40 text-green-500">
+                        <i class="fab fa-node-js"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm text-gray-200">Backend Engine</p>
+                        <p class="text-xs text-gray-400">Node.js (Express)</p>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="icon-box bg-blue-900 bg-opacity-40 text-blue-400">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm text-gray-200">Containerization</p>
+                        <p class="text-xs text-gray-400">Docker Engine</p>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="icon-box bg-indigo-900 bg-opacity-40 text-indigo-400">
+                        <i class="fas fa-dharmachakra"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm text-gray-200">Orchestration</p>
+                        <p class="text-xs text-gray-400">Kubernetes (K8s)</p>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="icon-box bg-emerald-900 bg-opacity-40 text-emerald-400">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm text-gray-200">Database</p>
+                        <p class="text-xs text-gray-400">MongoDB</p>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="icon-box bg-teal-900 bg-opacity-40 text-teal-400">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-sm text-gray-200">Reverse Proxy</p>
+                        <p class="text-xs text-gray-400">Nginx (Dynamic)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-2/3 flex flex-col justify-start min-h-0">
+            <h3 class="section-heading border-purple-500">Deployment Data Flow</h3>
+            
+            <div class="flow-container flex-1">
+                <div class="diagram-wrapper">
+                    <div class="flow-step step-git border-gray-600">
+                        <i class="fab fa-git-alt flow-icon-lg text-red-500"></i>
+                        <p class="font-bold text-sm text-white">1. Git URL</p>
+                        <p class="text-xs text-gray-400 mt-1">User Input</p>
+                    </div>
+                    <div class="flow-arrow line-1"></div>
+                    <div class="label-pill" style="top: 47px; left: 195px;">Clone</div>
+                    
+                    <div class="flow-step step-node border-green-500/30">
+                        <i class="fas fa-cogs flow-icon-lg text-green-500"></i>
+                        <p class="font-bold text-sm text-white">2. Orchestrator</p>
+                        <p class="text-xs text-gray-400 mt-1">Node.js Engine</p>
+                    </div>
+                    <div class="flow-arrow line-2"></div>
+                    <div class="label-pill" style="top: 47px; left: 415px;">Build</div>
+                    
+                    <div class="flow-step step-docker border-blue-500/30">
+                        <i class="fab fa-docker flow-icon-lg text-blue-400"></i>
+                        <p class="font-bold text-sm text-white">3. Build Image</p>
+                        <p class="text-xs text-gray-400 mt-1">Docker Daemon</p>
+                    </div>
+                    <div class="line-3-v"></div>
+                    <div class="label-pill" style="top: 160px; left: 522px;">Deploy</div>
+
+                    <div class="flow-step step-k8s border-indigo-500/30">
+                        <i class="fas fa-dharmachakra flow-icon-lg text-indigo-400"></i>
+                        <p class="font-bold text-sm text-white">4. Cluster</p>
+                        <p class="text-xs text-gray-400 mt-1">Kubernetes Pods</p>
+                    </div>
+                    <div class="flow-arrow line-4"></div>
+                    <div class="label-pill" style="top: 277px; left: 415px;">Map Port</div>
+                    
+                    <div class="flow-step step-nginx border-teal-500/30">
+                        <i class="fas fa-network-wired flow-icon-lg text-teal-400"></i>
+                        <p class="font-bold text-sm text-white">5. Proxy</p>
+                        <p class="text-xs text-gray-400 mt-1">Nginx Routing</p>
+                    </div>
+                    <div class="flow-arrow line-5"></div>
+                    <div class="label-pill" style="top: 277px; left: 195px;">Route</div>
+                    
+                    <div class="flow-step step-live border-white/30 bg-blue-900/40">
+                        <i class="fas fa-globe flow-icon-lg text-blue-300"></i>
+                        <p class="font-bold text-sm text-white">6. Live App</p>
+                        <p class="text-xs text-gray-400 mt-1">Public URL</p>
+                    </div>
+
+                    <div class="line-db"></div>
+                    <div class="flow-step step-db border-emerald-500/30">
+                        <i class="fas fa-database flow-icon-lg text-emerald-500"></i>
+                        <p class="font-bold text-sm text-white">MongoDB</p>
+                        <p class="text-xs text-gray-400 mt-1">Log/State</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full bg-slate-800/80 rounded-xl p-4 flex flex-col justify-center backdrop-blur-md">
+        <h3 class="text-xs font-bold text-gray-300 uppercase tracking-widest mb-3 flex items-center border-l-2 border-orange-500 pl-2 ml-2">
+            <i class="fas fa-server mr-2 text-orange-400"></i> Minimum Hardware Specifications
+        </h3>
+        <div class="flex justify-between items-center px-6">
+            <div class="flex items-center space-x-4">
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 text-blue-400">
+                    <i class="fas fa-microchip text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Processor</p>
+                    <p class="font-semibold text-gray-100">Intel Core i5 / AMD Ryzen 5</p>
+                </div>
+            </div>
+            
+            <div class="h-10 w-px bg-gray-600"></div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 text-green-400">
+                    <i class="fas fa-memory text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Memory</p>
+                    <p class="font-semibold text-gray-100">16 GB RAM <span class="text-xs text-gray-500 font-normal ml-1">(Req. for K8s/Docker)</span></p>
+                </div>
+            </div>
+            
+            <div class="h-10 w-px bg-gray-600"></div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 text-purple-400">
+                    <i class="fas fa-hdd text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Storage</p>
+                    <p class="font-semibold text-gray-100">50 GB SSD <span class="text-xs text-gray-500 font-normal ml-1">(Min. Free Space)</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</div>
+</body>
+</html>

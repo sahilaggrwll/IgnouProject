@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — References & Bibliography</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .ref-list { display:flex; flex-direction:column; gap:6px; }
+  .ref-item { display:flex; gap:10px; align-items:flex-start; padding:8px 12px; border:1px solid rgba(71,85,105,0.4); border-radius:10px; background:rgba(15,23,42,0.7); }
+  .ref-num { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:#3b82f6; width:24px; flex-shrink:0; margin-top:1px; }
+  .ref-content { flex:1; }
+  .ref-cite { font-size:11px; color:#cbd5e1; line-height:1.5; }
+  .ref-cite em { color:#94a3b8; font-style:italic; }
+  .ref-cite .url { color:#60a5fa; font-size:10px; font-family:'JetBrains Mono',monospace; }
+  .ref-type { display:inline-flex; align-items:center; padding:1px 7px; border-radius:999px; font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-left:6px; }
+  .rt-book { border:1px solid rgba(59,130,246,0.3); background:rgba(30,64,175,0.15); color:#93c5fd; }
+  .rt-web { border:1px solid rgba(52,211,153,0.3); background:rgba(6,95,70,0.15); color:#6ee7b7; }
+  .rt-doc { border:1px solid rgba(245,158,11,0.3); background:rgba(120,53,15,0.15); color:#fbbf24; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Appendix</p>
+      <h1 class="chapter-title">References &amp; Bibliography</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-book-open"></i> IEEE Format</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT -->
+    <div class="col">
+      <div class="card" style="border-color:rgba(71,85,105,0.5);">
+        <p class="section-h" style="margin-bottom:10px;">Books &amp; Technical References</p>
+        <div class="ref-list">
+          <div class="ref-item">
+            <span class="ref-num">[1]</span>
+            <div class="ref-content">
+              <p class="ref-cite">N. Poulton, <em>Docker Deep Dive</em>, Independently Published, 2023.<span class="ref-type rt-book">Book</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[2]</span>
+            <div class="ref-content">
+              <p class="ref-cite">K. Hightower, B. Burns, J. Beda, <em>Kubernetes: Up and Running</em>, 3rd ed., O'Reilly Media, 2022.<span class="ref-type rt-book">Book</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[3]</span>
+            <div class="ref-content">
+              <p class="ref-cite">R.S. Pressman &amp; B. Maxim, <em>Software Engineering: A Practitioner's Approach</em>, 9th ed., McGraw-Hill, 2020.<span class="ref-type rt-book">Book</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[4]</span>
+            <div class="ref-content">
+              <p class="ref-cite">S. Chacon &amp; B. Straub, <em>Pro Git</em>, 2nd ed., Apress, 2014. <em>(Available free at git-scm.com)</em><span class="ref-type rt-book">Book</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[5]</span>
+            <div class="ref-content">
+              <p class="ref-cite">E.J. Brown, <em>Web Development with Node and Express</em>, 2nd ed., O'Reilly, 2019.<span class="ref-type rt-book">Book</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[6]</span>
+            <div class="ref-content">
+              <p class="ref-cite">S. Banker, D. Cooper, C. Hawkins, <em>MongoDB in Action</em>, 2nd ed., Manning Publications, 2016.<span class="ref-type rt-book">Book</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+      <div class="card" style="border-color:rgba(71,85,105,0.5);">
+        <p class="section-h" style="margin-bottom:10px;">Official Documentation &amp; Web Resources</p>
+        <div class="ref-list">
+          <div class="ref-item">
+            <span class="ref-num">[7]</span>
+            <div class="ref-content">
+              <p class="ref-cite">Node.js Foundation, <em>Node.js v18 API Documentation</em>, 2023.<span class="ref-type rt-doc">Docs</span><br>
+              <span class="url">https://nodejs.org/docs/latest-v18.x/api/</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[8]</span>
+            <div class="ref-content">
+              <p class="ref-cite">Docker Inc., <em>Docker Engine Documentation</em>, 2024.<span class="ref-type rt-doc">Docs</span><br>
+              <span class="url">https://docs.docker.com/engine/</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[9]</span>
+            <div class="ref-content">
+              <p class="ref-cite">The Kubernetes Authors, <em>Kubernetes Official Documentation</em>, 2024.<span class="ref-type rt-doc">Docs</span><br>
+              <span class="url">https://kubernetes.io/docs/</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[10]</span>
+            <div class="ref-content">
+              <p class="ref-cite">MongoDB Inc., <em>MongoDB Manual v6.0</em>, 2024.<span class="ref-type rt-doc">Docs</span><br>
+              <span class="url">https://www.mongodb.com/docs/manual/</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[11]</span>
+            <div class="ref-content">
+              <p class="ref-cite">Nginx Inc., <em>Nginx Documentation — Reverse Proxy</em>, 2024.<span class="ref-type rt-doc">Docs</span><br>
+              <span class="url">https://nginx.org/en/docs/http/ngx_http_proxy_module.html</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[12]</span>
+            <div class="ref-content">
+              <p class="ref-cite">IGNOU, <em>MCSP-232 Project Guidelines — MCA (New Syllabus)</em>, SOCIS, IGNOU, New Delhi, 2025.<span class="ref-type rt-doc">Docs</span></p>
+            </div>
+          </div>
+          <div class="ref-item">
+            <span class="ref-num">[13]</span>
+            <div class="ref-content">
+              <p class="ref-cite">Auth0, "JWT Introduction," <em>jwt.io</em>, 2024.<span class="ref-type rt-web">Web</span><br>
+              <span class="url">https://jwt.io/introduction</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>References — Page 8</span>
+  </div>
+</div>
+</body>
+</html>

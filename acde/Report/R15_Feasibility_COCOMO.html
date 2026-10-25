@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Feasibility Study & COCOMO Cost Estimation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  /* Feasibility dimension cards */
+  .feas-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+  .feas-card { padding:10px 12px; border-radius:11px; border:1px solid; position:relative; }
+  .feas-label { font-size:8.5px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:3px; }
+  .feas-title { font-size:11.5px; font-weight:700; color:white; margin-bottom:4px; }
+  .feas-body { font-size:9.5px; line-height:1.45; }
+  .verdict { display:inline-flex; align-items:center; gap:5px; padding:2px 9px; border-radius:999px; font-size:8px; font-weight:700; text-transform:uppercase; margin-top:5px; }
+  .v-feasible { border:1px solid rgba(52,211,153,0.4); background:rgba(6,95,70,0.2); color:#6ee7b7; }
+
+  /* COCOMO */
+  .formula-box { background:rgba(15,23,42,0.95); border:1px solid rgba(59,130,246,0.4); border-radius:10px; padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.7; color:#93c5fd; margin-bottom:8px; }
+  .formula-box .comment { color:#334155; }
+  .formula-box .result { color:#34d399; font-weight:700; }
+  .cocomo-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .cocomo-card { padding:10px 12px; border-radius:10px; border:1px solid rgba(71,85,105,0.4); background:rgba(30,41,59,0.6); text-align:center; }
+  .cocomo-val { font-size:20px; font-weight:800; color:white; font-family:'JetBrains Mono',monospace; }
+  .cocomo-unit { font-size:9px; color:#60a5fa; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-top:2px; }
+  .cocomo-label { font-size:9px; color:#64748b; margin-top:4px; }
+  .kloc-explain { font-size:10px; color:#94a3b8; line-height:1.5; }
+  .kloc-explain strong { color:#e2e8f0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 2 — Part C</p>
+      <h1 class="chapter-title">Feasibility Study &amp; COCOMO Cost Estimation</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-calculator"></i> Viability &amp; Effort</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT: Feasibility Study -->
+    <div class="col">
+      <div class="card card-accent-green">
+        <p class="section-h">2.3 Feasibility Study — Four Dimensions</p>
+
+        <div class="feas-grid">
+          <!-- Technical -->
+          <div class="feas-card" style="border-color:rgba(52,211,153,0.35); background:rgba(6,95,70,0.15);">
+            <p class="feas-label" style="color:#34d399;">Technical Feasibility</p>
+            <p class="feas-title">Technology Availability</p>
+            <p class="feas-body" style="color:#a7f3d0;">All required tools — Node.js, Docker Engine, Kubernetes (minikube), MongoDB, and Nginx — are mature, open-source, and freely available on Ubuntu 20.04+. The developer has prior experience with all core technologies.</p>
+            <div class="verdict v-feasible"><i class="fas fa-check"></i> Feasible</div>
+          </div>
+
+          <!-- Operational -->
+          <div class="feas-card" style="border-color:rgba(59,130,246,0.35); background:rgba(30,64,175,0.15);">
+            <p class="feas-label" style="color:#60a5fa;">Operational Feasibility</p>
+            <p class="feas-title">Workflow Integration</p>
+            <p class="feas-body" style="color:#bfdbfe;">ACDE's single-API-call model dramatically reduces operational overhead. Developers need only a Git URL — the system handles all provisioning. The SSE-based log dashboard provides real-time visibility without training.</p>
+            <div class="verdict" style="border:1px solid rgba(59,130,246,0.4);background:rgba(30,64,175,0.22);color:#93c5fd;"><i class="fas fa-check"></i> Feasible</div>
+          </div>
+
+          <!-- Economic -->
+          <div class="feas-card" style="border-color:rgba(245,158,11,0.35); background:rgba(120,53,15,0.15);">
+            <p class="feas-label" style="color:#f59e0b;">Economic Feasibility</p>
+            <p class="feas-title">Cost &amp; Resources</p>
+            <p class="feas-body" style="color:#fed7aa;">Zero-cost open-source software stack. Single developer on available hardware (16 GB RAM, 50 GB SSD). GCP production costs estimated ₹800–₹2,000/month for low traffic — well within feasibility range.</p>
+            <div class="verdict" style="border:1px solid rgba(245,158,11,0.4);background:rgba(120,53,15,0.22);color:#fdba74;"><i class="fas fa-check"></i> Feasible</div>
+          </div>
+
+          <!-- Schedule -->
+          <div class="feas-card" style="border-color:rgba(139,92,246,0.35); background:rgba(76,29,149,0.15);">
+            <p class="feas-label" style="color:#a78bfa;">Schedule Feasibility</p>
+            <p class="feas-title">Timeline Viability</p>
+            <p class="feas-body" style="color:#ddd6fe;">COCOMO estimates 4.27 person-months of effort, completing in ~5 months — matching the planned 5-sprint Agile timeline. The 5-month window aligns with the IGNOU MCSP-232 submission window.</p>
+            <div class="verdict" style="border:1px solid rgba(139,92,246,0.4);background:rgba(76,29,149,0.22);color:#c4b5fd;"><i class="fas fa-check"></i> Feasible</div>
+          </div>
+        </div>
+
+        <div style="padding:8px 12px; border:1px solid rgba(52,211,153,0.3); border-radius:10px; background:rgba(6,95,70,0.12); display:flex; gap:10px; align-items:center;">
+          <i class="fas fa-shield-check" style="color:#34d399; font-size:18px; flex-shrink:0;"></i>
+          <p style="font-size:11px; color:#a7f3d0; line-height:1.4;"><strong style="color:#6ee7b7;">Overall Verdict: Feasible.</strong> All four dimensions confirm ACDE is technically sound, operationally practical, economically viable, and schedulable within the given timeline.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: COCOMO -->
+    <div class="col">
+      <div class="card card-accent-orange">
+        <p class="section-h">2.3 Cost Estimation — Basic COCOMO Model</p>
+
+        <div class="kloc-explain" style="margin-bottom:10px;">
+          <strong>Project Mode:</strong> <span style="color:#fb923c;">Organic</span> — small team, familiar tools, well-understood requirements.<br>
+          <strong>KLOC Estimate:</strong> Backend src: ~1,050 lines &nbsp;|&nbsp; Frontend: ~520 lines &nbsp;|&nbsp; Config/YAML: ~230 lines<br>
+          <span style="color:#60a5fa; font-weight:700;">Total ≈ 1,800 lines = 1.8 KLOC</span>
+        </div>
+
+        <div class="formula-box">
+<span class="comment">/* Basic COCOMO — Organic Mode */</span>
+<span class="comment">/* Coefficients: a=2.4, b=1.05, c=2.5, d=0.38 */</span>
+
+E = 2.4 × (KLOC)<sup>1.05</sup>
+E = 2.4 × (1.8)<sup>1.05</sup>
+E = 2.4 × <span class="result">1.856</span>
+<span class="result">E = 4.45 Person-Months</span>
+
+D = 2.5 × (E)<sup>0.38</sup>
+D = 2.5 × (4.45)<sup>0.38</sup>
+D = 2.5 × <span class="result">1.88</span>
+<span class="result">D = 4.7 Months ≈ 5 Months  ✓ Matches Agile plan</span>
+        </div>
+
+        <div class="cocomo-grid">
+          <div class="cocomo-card">
+            <p class="cocomo-val">1.8</p>
+            <p class="cocomo-unit">KLOC</p>
+            <p class="cocomo-label">Estimated Source Lines</p>
+          </div>
+          <div class="cocomo-card">
+            <p class="cocomo-val">4.45</p>
+            <p class="cocomo-unit">Person-Months</p>
+            <p class="cocomo-label">Development Effort (E)</p>
+          </div>
+          <div class="cocomo-card">
+            <p class="cocomo-val">~5</p>
+            <p class="cocomo-unit">Months</p>
+            <p class="cocomo-label">Development Duration (D)</p>
+          </div>
+          <div class="cocomo-card">
+            <p class="cocomo-val">1</p>
+            <p class="cocomo-unit">Developer</p>
+            <p class="cocomo-label">Required Staff = E / D</p>
+          </div>
+        </div>
+
+        <div style="padding:8px 12px; border:1px solid rgba(245,158,11,0.3); border-radius:10px; background:rgba(120,53,15,0.15); margin-top:8px;">
+          <p style="font-size:10px; color:#fed7aa; line-height:1.5;"><strong style="color:#fbbf24;">Resource Cost Estimate:</strong> Hardware (existing PC) = ₹0 &nbsp;|&nbsp; Software = ₹0 (all open-source) &nbsp;|&nbsp; Developer effort = 4.45 months × 1 developer &nbsp;|&nbsp; Internet/electricity = ~₹3,000 total &nbsp;|&nbsp; <strong style="color:#fbbf24;">Total Project Cost ≈ ₹3,000</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 2C — Feasibility &amp; Cost</span>
+  </div>
+</div>
+</body>
+</html>

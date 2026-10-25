@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Acknowledgement & Table of Contents</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:#0f172a; color:white; width:1280px; height:720px; overflow:hidden; }
+  .page { width:1280px; height:720px; display:grid; grid-template-columns:1fr 1fr; position:relative; isolation:isolate; }
+  .page::before { content:''; position:absolute; inset:0; z-index:-1; background:#0f172a; background-image:radial-gradient(circle at 70% 20%, rgba(59,130,246,0.14), transparent 30%), radial-gradient(circle at 20% 80%, rgba(99,102,241,0.12), transparent 30%), linear-gradient(rgba(148,163,184,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.04) 1px, transparent 1px); background-size:auto,auto,40px 40px,40px 40px; }
+  .top-bar { position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,#1d4ed8,#6366f1,#1d4ed8); }
+  .half { padding:52px 48px; display:flex; flex-direction:column; }
+  .half-r { border-left:1px solid rgba(71,85,105,0.4); }
+  .page-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 14px; border:1px solid rgba(59,130,246,0.35); border-radius:999px; background:rgba(30,64,175,0.16); color:#93c5fd; font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:16px; }
+  h2 { font-size:26px; font-weight:800; color:white; margin-bottom:6px; }
+  .rule { width:48px; height:3px; background:#2563eb; border-radius:2px; margin-bottom:20px; }
+  /* Ack */
+  .ack-body { font-size:12.5px; line-height:1.85; color:#cbd5e1; flex:1; }
+  .ack-body strong { color:#e2e8f0; }
+  .ack-body .blue { color:#60a5fa; }
+  .ack-sig { margin-top:20px; padding-top:16px; border-top:1px solid rgba(71,85,105,0.4); }
+  .ack-sig p { font-size:12px; color:#94a3b8; }
+  .ack-sig strong { color:#e2e8f0; }
+  /* TOC */
+  .toc-list { flex:1; display:flex; flex-direction:column; gap:0; overflow:hidden; }
+  .toc-item { display:flex; align-items:center; padding:6px 0; border-bottom:1px solid rgba(51,65,85,0.45); gap:10px; }
+  .toc-item:last-child { border-bottom:none; }
+  .toc-num { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:#3b82f6; width:32px; flex-shrink:0; }
+  .toc-title { font-size:11.5px; color:#cbd5e1; flex:1; }
+  .toc-sub { font-size:10px; color:#64748b; padding-left:32px; border-bottom:1px solid rgba(51,65,85,0.25); padding-top:2px; padding-bottom:2px; }
+  .toc-sub:last-child { border-bottom:none; }
+  .toc-chapter { font-size:12px; font-weight:700; color:#e2e8f0; flex:1; }
+  .toc-page { font-size:10px; color:#475569; font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+  .toc-section { color:#94a3b8; font-size:10.5px; }
+  .prelim-label { font-size:9px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#334155; margin-bottom:6px; margin-top:4px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <!-- LEFT: Acknowledgement -->
+  <div class="half">
+    <div class="page-tag"><i class="fas fa-heart"></i> Preliminary — iii</div>
+    <h2>Acknowledgement</h2>
+    <div class="rule"></div>
+    <div class="ack-body">
+      <p>
+        I express my sincere gratitude to my project guide, <strong>Ms. Aishwariya Singh</strong>,
+        Senior Software Engineer at <span class="blue">Headout, Bangalore</span>, for her invaluable
+        guidance, constructive feedback, and constant encouragement throughout the duration of this project.
+        Her insights into containerisation, deployment pipelines, and real-world cloud engineering were
+        instrumental in shaping the architecture of ACDE.
+      </p>
+      <br>
+      <p>
+        I am thankful to the faculty and staff of the <strong>School of Computer &amp; Information Sciences
+        (SOCIS), IGNOU</strong>, for providing a structured and well-defined curriculum that made this
+        project feasible within the MCA programme.
+      </p>
+      <br>
+      <p>
+        I also acknowledge the open-source communities behind <span class="blue">Node.js, Docker, Kubernetes,
+        MongoDB, and Nginx</span>, whose freely available tools and documentation formed the backbone of this
+        implementation.
+      </p>
+      <br>
+      <p>
+        Finally, I thank my family for their unwavering support and patience during the research and
+        development phases of this work.
+      </p>
+    </div>
+    <div class="ack-sig">
+      <p><strong>Sahil Aggarwal</strong></p>
+      <p>Enrolment No. 2500675011 &nbsp;|&nbsp; MCA (New) — SOCIS, IGNOU</p>
+    </div>
+  </div>
+
+  <!-- RIGHT: Table of Contents -->
+  <div class="half half-r">
+    <div class="page-tag"><i class="fas fa-list"></i> Preliminary — iv</div>
+    <h2>Table of Contents</h2>
+    <div class="rule"></div>
+
+    <div class="toc-list">
+      <p class="prelim-label">Preliminary Pages</p>
+      <div class="toc-item"><span class="toc-num">—</span><span class="toc-title">Cover Page</span><span class="toc-page">i</span></div>
+      <div class="toc-item"><span class="toc-num">—</span><span class="toc-title">Certificate from Guide</span><span class="toc-page">ii</span></div>
+      <div class="toc-item"><span class="toc-num">—</span><span class="toc-title">Acknowledgement</span><span class="toc-page">iii</span></div>
+      <div class="toc-item"><span class="toc-num">—</span><span class="toc-title">Table of Contents</span><span class="toc-page">iv</span></div>
+
+      <p class="prelim-label" style="margin-top:8px;">Chapters</p>
+      <div class="toc-item"><span class="toc-num">Ch 1</span><span class="toc-chapter">Introduction &amp; Objectives</span><span class="toc-page">1</span></div>
+      <div class="toc-item" style="padding-left:0"><span class="toc-num"></span><span class="toc-section">1.1 Introduction &nbsp;|&nbsp; 1.2 Problem Statement &nbsp;|&nbsp; 1.3 Objectives &nbsp;|&nbsp; 1.4 Scope</span><span class="toc-page"></span></div>
+
+      <div class="toc-item"><span class="toc-num">Ch 2</span><span class="toc-chapter">System Analysis</span><span class="toc-page">2</span></div>
+      <div class="toc-item"><span class="toc-num"></span><span class="toc-section">2.1 Existing System &nbsp;|&nbsp; 2.2 Proposed System &nbsp;|&nbsp; 2.3 Planning (Gantt / PERT)</span><span class="toc-page"></span></div>
+      <div class="toc-item"><span class="toc-num"></span><span class="toc-section">2.4 SRS &nbsp;|&nbsp; 2.5 SE Paradigm (Agile) &nbsp;|&nbsp; 2.6 DFD &amp; ER Diagram</span><span class="toc-page"></span></div>
+
+      <div class="toc-item"><span class="toc-num">Ch 3</span><span class="toc-chapter">System Design</span><span class="toc-page">3</span></div>
+      <div class="toc-item"><span class="toc-num"></span><span class="toc-section">3.1 Modules &nbsp;|&nbsp; 3.2 Database Design &nbsp;|&nbsp; 3.3 Data Integrity &nbsp;|&nbsp; 3.4 UI Design</span><span class="toc-page"></span></div>
+
+      <div class="toc-item"><span class="toc-num">Ch 4</span><span class="toc-chapter">Coding &amp; Implementation</span><span class="toc-page">4</span></div>
+      <div class="toc-item"><span class="toc-num"></span><span class="toc-section">4.1 Technology Stack &nbsp;|&nbsp; 4.2 DB Implementation &nbsp;|&nbsp; 4.3 Critical Code Segments</span><span class="toc-page"></span></div>
+
+      <div class="toc-item"><span class="toc-num">Ch 5</span><span class="toc-chapter">Testing</span><span class="toc-page">5</span></div>
+      <div class="toc-item"><span class="toc-num"></span><span class="toc-section">5.1 Strategy &nbsp;|&nbsp; 5.2 Unit Tests &nbsp;|&nbsp; 5.3 Integration Tests &nbsp;|&nbsp; 5.4 Debugging</span><span class="toc-page"></span></div>
+
+      <div class="toc-item"><span class="toc-num">Ch 6</span><span class="toc-chapter">System Security</span><span class="toc-page">6</span></div>
+      <div class="toc-item"><span class="toc-num">Ch 7</span><span class="toc-chapter">Conclusion &amp; Future Scope</span><span class="toc-page">7</span></div>
+      <div class="toc-item"><span class="toc-num">—</span><span class="toc-title">References &amp; Bibliography</span><span class="toc-page">8</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACDE — Chapter 3: System Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+</head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+
+  <div class="page-header">
+    <div>
+      <p class="chapter-label">Chapter 3</p>
+      <h1 class="chapter-title">System Design</h1>
+      <div class="h1-rule"></div>
+    </div>
+    <span class="chapter-badge"><i class="fas fa-drafting-compass"></i> Design &amp; Architecture</span>
+  </div>
+
+  <div class="two-col" style="">
+
+    <!-- LEFT -->
+    <div class="col">
+      <!-- 3.1 Modules -->
+      <div class="card card-accent-blue">
+        <p class="section-h">3.1 Modularisation — System Breakdown</p>
+        <div class="tbl-shell">
+          <table class="tbl">
+            <thead><tr><th>Module</th><th>File(s)</th><th>Responsibility</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Auth</strong></td><td><code>routes/auth.js</code></td><td>Register, Login, JWT issuance</td></tr>
+              <tr><td><strong>Project Manager</strong></td><td><code>routes/projects.js</code></td><td>CRUD, deploy trigger, SSE log stream</td></tr>
+              <tr><td><strong>Dashboard</strong></td><td><code>routes/dashboard.js</code></td><td>Stats, health check, recent projects</td></tr>
+              <tr><td><strong>Orchestrator</strong></td><td><code>services/orchestrator.js</code></td><td>Clone → Build → Deploy pipeline</td></tr>
+              <tr><td><strong>Proxy Manager</strong></td><td><code>services/proxy.js</code></td><td>Nginx conf.d write/delete, reload</td></tr>
+              <tr><td><strong>Port Allocator</strong></td><td><code>services/ports.js</code></td><td>DB + OS-level free port detection</td></tr>
+              <tr><td><strong>Log Bus</strong></td><td><code>utils/logBus.js</code></td><td>EventEmitter for real-time SSE logs</td></tr>
+              <tr><td><strong>Auth Middleware</strong></td><td><code>middleware/auth.js</code></td><td>JWT verify → <code>req.user</code></td></tr>
+              <tr><td><strong>Ownership Guard</strong></td><td><code>middleware/ownership.js</code></td><td>Project owner check → 403</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3.3 Data Integrity -->
+      <div class="card card-accent-orange">
+        <p class="section-h">3.3 Data Integrity &amp; Validation Constraints</p>
+        <ul class="blist">
+          <li><strong>Git URL validation:</strong> Regex accepts only GitHub/GitLab/Bitbucket HTTPS+SSH or local paths. Enforced in <code>validators.js</code> before project creation.</li>
+          <li><strong>Project name sanitisation:</strong> Strips special characters; max 80 chars; used to generate a safe subdomain slug.</li>
+          <li><strong>Mongoose unique index:</strong> <code>email</code> field on Users collection prevents duplicate accounts at DB level.</li>
+          <li><strong>Port uniqueness:</strong> Allocator queries live Deployments + probes OS; never assigns an in-use port.</li>
+          <li><strong>Ownership enforcement:</strong> Every project route checks <code>project.user_id === req.user._id</code> before proceeding.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+      <!-- 3.2 Database Design -->
+      <div class="card card-accent-green">
+        <p class="section-h">3.2 Database Design — MongoDB Collections</p>
+        <div class="tbl-shell">
+          <table class="tbl">
+            <thead><tr><th>Collection</th><th>Key Fields</th><th>Indexes</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>users</strong></td>
+                <td><code>name, email, password_hash, created_at</code></td>
+                <td><code>email</code> unique</td>
+              </tr>
+              <tr>
+                <td><strong>projects</strong></td>
+                <td><code>user_id (FK), project_name, git_repo_url, tech_stack, status, updated_at</code></td>
+                <td><code>user_id</code></td>
+              </tr>
+              <tr>
+                <td><strong>deployments</strong></td>
+                <td><code>project_id (FK), subdomain, assigned_port, container_id, image_tag, mode, status, live_url</code></td>
+                <td><code>project_id</code></td>
+              </tr>
+              <tr>
+                <td><strong>logs</strong></td>
+                <td><code>deployment_id (FK), log_message, timestamp</code></td>
+                <td><code>deployment_id</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:9px; color:#475569; margin-top:6px;">All timestamps use <code>Date.now</code> default. Projects and Deployments have a <code>pre('save')</code> hook that updates <code>updated_at</code> automatically.</p>
+      </div>
+
+      <!-- 3.4 UI Design -->
+      <div class="card card-accent-purple">
+        <p class="section-h">3.4 User Interface Design</p>
+        <p class="card-body" style="margin-bottom:8px;">The React + Vite frontend (port 5173) follows a dark-mode SPA layout with the following screens:</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div style="padding:8px 10px; border:1px solid rgba(71,85,105,0.4); border-radius:10px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:9px; font-weight:700; color:#60a5fa; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Login / Register</p>
+            <p style="font-size:10px; color:#94a3b8; line-height:1.4;">JWT auth form. Token stored in localStorage. Auto-redirects to Dashboard on success.</p>
+          </div>
+          <div style="padding:8px 10px; border:1px solid rgba(71,85,105,0.4); border-radius:10px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:9px; font-weight:700; color:#34d399; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Dashboard</p>
+            <p style="font-size:10px; color:#94a3b8; line-height:1.4;">Stat cards (total / deployed / failed). System health badge. Recent 5 projects with live links.</p>
+          </div>
+          <div style="padding:8px 10px; border:1px solid rgba(71,85,105,0.4); border-radius:10px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:9px; font-weight:700; color:#f59e0b; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Projects List</p>
+            <p style="font-size:10px; color:#94a3b8; line-height:1.4;">All user projects with status pills. New Project form. Click row to open detail.</p>
+          </div>
+          <div style="padding:8px 10px; border:1px solid rgba(71,85,105,0.4); border-radius:10px; background:rgba(30,41,59,0.6);">
+            <p style="font-size:9px; font-weight:700; color:#a78bfa; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Project Detail</p>
+            <p style="font-size:10px; color:#94a3b8; line-height:1.4;">Deploy / Stop buttons. Real-time SSE build log terminal. Live URL button. Deployment info.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span>ACDE — IGNOU MCSP-232 Project Report &nbsp;|&nbsp; Sahil Aggarwal (2500675011)</span>
+    <span>Chapter 3 — Page 3</span>
+  </div>
+</div>
+</body>
+</html>
